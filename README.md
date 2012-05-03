@@ -37,9 +37,3 @@ By the second check-in, we hope to have a modified version of MURK++ working wit
 
 By the presentation, we should have our final debugged version of MURK++ working, as well as (if all goes well) a visual representation of the system resources saved by working with P2P-based multiplayer versus Client/Server-based games..
 
-Here are some links that you might find interesting for more information on our project.
-[[http://www.comp.nus.edu/~bleong/hydra/related/yu05mopar.pdf]] The Mopar Paper
-[[http://en.wikipedia.org/wiki/Chord_(peer-to-peer)]] Information about Chord
-[[http://en.wikipedia.org/wiki/Merc_(MUD)]] Information about MercMUD
-[[http://www.mudbytes.net/file-706]] MURK++ Source
-[[https://github.com/dmariew/RueMUD]] GitHub Repo
