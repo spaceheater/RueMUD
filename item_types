@@ -1,0 +1,20 @@
+light|1
+scroll|2
+wand|3
+staff|4
+weapon|5
+treasure|8
+armor|9
+potion|10
+furniture|12
+trash|13
+container|15
+drink container|17
+key|18
+food|19
+money|20
+boat|22
+npc corpse|23
+pc corpse|24
+fountain|25
+pill|26

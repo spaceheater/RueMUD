@@ -1,0 +1,2460 @@
+=== Introduction
+
+Murk++ is a C++ version of Merc 2.2
+
+Merc Diku Mud is a Diku Mud with many enhancements and contributions.  
+
+=== Platforms
+
+Murk++ was compiled and tested on...
+
+* Microsoft Windows 7 Service Pack 1
+  Microsoft Visual C/C++ v10.0 (Visual C++ 2010 Express)
+  Embarcadero C++ 6.30 for Win32
+  Borland C++ 5.5.1 for Win32 (free compiler release)
+  Digital Mars C/C++ Compiler Version 8.52c (with STLPort 4.5.3)
+  CYGWIN_NT-6.1-WOW64 1.7.9(0.237/5/3) using gcc 4.3.4
+
+* FreeBSD 8.1 amd64
+  g++ version 4.2.1 [FreeBSD] 
+
+* Ubuntu 10.04 amd64 
+  g++ (Ubuntu 4.4.3-4ubuntu5) 4.4.3 
+ 
+* Red Hat Fedora 12 i386 
+  gcc version 4.2.2
+ 
+Murk++ was previously compiled and tested on...
+
+* Microsoft Windows XP Service Pack 2 
+  CYGWIN_NT-5.1 1.5.23(0.156/4/2) using g++ (GCC) 3.4.4 (cygming special)
+  Borland C++ 5.5.1 for Win32 (free compiler release)
+  Microsoft Visual C/C++ v7.1 (Visual C++ Toolkit 2003)
+  Digital Mars Compiler Version 8.49c (with STLPort 4.5.3)
+
+* FreeBSD 5.3-BETA4 
+  g++ (GCC) version 3.4.2 [FreeBSD] 20040728
+
+* Debian Linux 2.4.27-2-386
+  g++ (GCC) version 4.0.2 (Debian 4.0.2-2)
+
+* SuSE Linux 2.6.4-52
+  g++ (GCC) 3.3.3 (SuSE Linux)
+
+=== Release Information
+
+Version 1.7
+
+* Updated to sqlite 3.7.6.3
+* Delayed extraction of characters by moving it to update routine. 
+* Support for Visual C++ 6.0 dropped.
+* Fixed many g++ 4.x errors 
+* Switched headers to point to C++ standard library and std namespace. 
+
+Version 1.6
+
+* Added schemas for areas, rooms, objects, affects, extra descriptions (unused)
+* Updated to sqlite 3.3.12
+* Updated documentation and help files
+* Added gag/ignore command and support for lists in player files.
+* Hotboot command and capability added (Windows only).
+* Removed invis and reboot commands.
+* Function tail_chain removed.
+* Made port and listening socket global variables.
+* Refactored hostname retrieval to separate function.
+* Added win_errprint() function to retrieve and format windows api errors.
+* Updated startup.cmd to exit when hotbooting.
+* Updated makefiles to allow linkage under windows while server running
+
+Version 1.5
+
+* Added macros and dual use include files for commands and spells.
+* Created singleton Database class and moved storage routines to it.
+* Removed gsn and slot references in skill table.
+* Converted slot references in area files to strings. 
+* Removed namespace in loadhelps for consistency.
+* Added SymbolTable class, a bidirectional mapping.
+* Added new source files to all makefiles.
+* Added startup script for bash shell and for windows cmd shell.
+* Fixed bug with instance database variable in Database.
+* Added compile defines to exclude uneccessary parts of Sqlite.
+* Refactored time, weather and area list to World class.
+* Added BaseObject as common root of several classes
+* Altered makefiles to omit TCL variable interface in SQLite
+
+Version 1.4
+
+* Migrated helps to database.
+* Refactored and split out classes into individual files.
+* Split out OS dependencies into os.hpp and os.cpp.
+* Fix makefile presumed existence of murk.db in database target.
+* Corrected many warnings for Borland compiler in murk.cpp
+
+Version 1.3
+
+* Makefile and patches for Digital Mars C++ compiler.
+* Commented out processor optimization switch in makefiles.
+* Migrated title_table to sqlite database.
+* Fixed bug with SO_DONTLINGER macro check.
+
+Version 1.2
+
+* Added schemas and data to load database.
+* Migrated social_table to sqlite database.
+* Removed and replaced use of number_bits() function.
+* Added sqlite3 library and updated makefiles.
+
+Version 1.1
+
+* Removed log, snoop and pose.
+* Removed old mob style code from DB read and updated area files.
+* Path to exe fixed.
+
+=== Acknowledgements
+
+This document contains information from the Merc Release 2.2 by Kahn and 
+Hatchet, information the DikuMud originally contained in 'database.doc', 
+'dbsup.doc', and 'values.doc', and information from 'MOBProgram.txt' by 
+N'atas-Ha.
+
+=== Copyright and License
+
+Diku Mud is copyright (C) 1990, 1991 by Sebastian Hammer, Michael Seifert,
+Hans Henrik St{rfeldt, Tom Madsen, and Katja Nyboe.  Their license agreement
+is in the file 'license.diku'.
+
+Merc Diku Mud is a derivative of the original Diku Mud and is subject to their
+copyright and license agreement.  Merc Diku Mud contains substantial
+enhancements to Diku Mud.  These enhancements are copyright 1992, 1993 by
+Michael Chastain, Michael Quan, and Mitchell Tse.  Our license agreement is in
+'license.merc'.
+
+Murk++ is a derivative of Merc.  Copyright 2006, 2007 by Jon A. Lambert.  
+See 'license.murk++' for terms.
+
+The crypt function is copyright 1987,1997, Prentice Hall.  See 'license.crypt' 
+for more information. 
+
+SQLite is in the public domain.
+
+=== Contents of the Release
+
+	*.are		Area files.
+	*.prg		MOB programs.
+	doc.txt		Documentation.
+	One		Player file  (username 'One' - password 'potrzebie').
+	*.cpp,*.hpp 	Murk C++ source files.
+	startup		cshell script to run mud.
+	Makefile.*	Makefiles to compile mud.
+	/sqlite3/*      Sqlite source code.
+
+=== How to Install
+
+(1) Unpack the release.
+
+	tar xzvf murk++-1.NrNN.tar.gz 
+
+(2) Compile the mud:
+
+  * For Linux and Cygwin - type 'make'.   
+    - You will need to edit the makefile to make sure the EXE suffix parameter 
+      is set correctly for Cygwin. 
+
+  * For FreeBSD - type 'gmake'.
+
+  * For Windows using Borland C++ - ensure the Borland compiler bin directory 
+    is in your path, then type 'make -fMakefile.bor'.
+    - All executables will be linked with the RTL and without debugging symbols.
+      To link a static executable  - use 'make -f Makefile.bor -DSTATIC'
+      To include debugging symbols - use 'make -f Makefile.bor -DDEBUG'
+      Or for both                  - use 'make -f Makefile.bor -DDEBUG -DSTATIC'
+
+  * For Windows using Microsoft Visual C - ensure your Visual C bin directory
+    is in your path and your INCLUDE and LIB environment variables are setup
+    correctly.
+    - With Visual C++ Toolkit 2003 and Platform SDK you may need to use both the
+      setenv.cmd and vsvars32.bat
+    Then type 'nmake -f makefile.vc'
+    - To link with debugging information type 'set DEBUG=1' and then use
+      'nmake -f makefile.vc'
+      
+  * For Windows using Digital Mars C++ - ensure your compiler bin directory is
+    in your path and you modify the makefile.dgm to point to where you installed
+    the STLPort directory.  
+    Then type 'make -f makefile.dgm'
+
+(3) Create the database
+   * Use one of the following depending on your OS and compiler.
+     'make database'
+     'gmake database'
+     'nmake -f makefile.vc database'
+     'make -f makefile.bor database'
+     'make -f makefile.dgm database'
+ 
+(4) Start the game:
+
+   * For Linux, FreeBSD or Cygwin
+	startup &
+     If you do not have csh or tcsh installed you can use the bash script
+        startup.bash &
+	
+   * For Windows
+        startup.cmd
+
+(5) Telnet into the game.  The default port in the startup batch files is 4000.
+
+    telnet localhost 4000
+
+(6) There is an immortal character named 'One' with a password of 'potrzebie'
+    You can 'advance' new characters to immortal levels with 'One'.
+
+(7) If you haven't already done so, read 'license.diku', 'license.merc', 
+   'license.crypt' and 'license.murk++'.
+    Because Merc is a derivative work of Diku Mud, you must register
+    your mud with the original Diku implementors.
+  
+=== Support
+
+First, read this documentation.
+
+Also check the 'wizhelp' command and read the 'help' descriptions for the
+individual immortal commands.
+
+Bugs may be reported to the bugtracker for Murk++ at http:\\www.mudbytes.net
+
+=== Additional Credits and Acknowledgments
+
+* Merc Mud is based on Diku Mud, with Copper and Alfa enhancements.
+* When we first started, Impy of Fajita Mud answered a lot of our newbie-coder
+  questions.
+* Frag, Tin, Razor, Jordan, Tre, and Matrix play-tested early Merc code.
+* The Free Software Foundation and DJ Delorie wrote our development tools, and
+  distribute them for free, with source.  You can ftp them from prep.ai.mit.edu
+  and grape.ecs.clarkson.edu.
+* N'atas-Ha and Blackstar contributed on the pager.
+* N'atas-Ha sent us the versatile MOBPrograms.  See MOBProgram.txt.
+* Morgenes of Aldara Mud contributed the player settable prompt.
+* Alander sent in an addition to the note system.
+* Alander sent in the fix for the vicious bind socket problem.
+* Da Pub pointed out the switch and purge problems.
+* Ikee, Chaos, Kraze, Maxx, Thoth, Zolstead, Zavod, VampLestat, Cyric,
+  Kelvin, and Jackal extensively playtested prerelease MERC 2.2 and
+  provided constructive input.
+* Mud Lite, Vego Mud, Final Mud, Rivers of Mud, Ruhr Mud, Chase Mud, and
+  Mystic Realms sent us their 'bugs.txt', 'ideas.txt', and 'typos.txt' files.
+  These were VERY helpful and we ask that all Merc-based muds e-mail us these
+  files from time to time.
+* While porting Merc to Linux, Vic isolated some mystifying memory management
+  problems in the base code.
+* Abaddon proofread our comm.c and reported several bugs and weak spots.
+  Of course, any remaining problems are ours, not his.
+* Kalgen reported bugs in the 2.0 Alpha release.
+* Grodyn of Mystic Realms sent us several high-quality logs, core dump stack
+  traces, and bug reports for 2.0 Beta.  Many other people, including Loki,
+  also sent us good beta bug reports.
+* Morgenes found and fixed the nasty 'aligned object drop corruption'
+  in equip_char.
+* Rivit play-tested the post-2.0-Beta version.
+===========================================================================
+
+== Builder's Guide
+
+=== Overview of Areas
+
+An area is one piece of the world.  Each area is defined in a separate file.
+All of our area files have the extension '.are', but you can call your area
+files anything you want.
+
+Because each area is defined in one file, it is easy to incorporate new areas
+into Merc, or to send Merc areas to others for use.
+
+All of our areas may be freely distributed, as long as the internal notices
+(such as those on plaques, signs, graffiti, or tombstones) are kept.  As you 
+can see from typing 'areas' in the game, we credit the original authors whenever 
+we can find them.
+
+=== Sections of an Area
+
+An area file contains the following sections:
+
+    #AREA
+    #HELPS
+    #MOBILES
+    #OBJECTS
+    #ROOMS
+    #RESETS
+    #SHOPS
+    #SPECIALS
+    #$
+
+An area is a collection of sections starting with #AREA until the next #AREA.
+All of our area files (except 'help.are') contain just one #AREA section, which
+is at the top of the file.
+
+Each of the sections contains its own format.  For #MOBILES, #OBJECTS, #ROOMS,
+and #RESETS, this format is upward compatible with the original Diku formats
+for tinyworld.mob, tinyworld.obj, tinyworld.wld, and tinyworld.zon,
+respectively.  The #HELPS, #SHOPS, and #SPECIALS sections have new formats.
+
+=== Memory Usage
+
+There is no limit on area sizes or memory usage.
+
+=== Data Types
+
+All of the data in an area file (even the section headers) consists of a series
+of values.  Each value has a specific type.  The server parses the file by
+reading in data values one at a time according to the types it expects.
+
+Blank characters (spaces, tabs, new lines, carriage returns) at the beginning
+of a data value are always ignored (this includes strings).  Thus, you can
+format the area files whatever way suits your taste and your needs.
+
+The individual types are: 'letter', 'word', 'string', 'number', and 'to_eol'.
+
+A 'letter' is a single non-blank character.
+
+A 'word' is a sequence of non-blank characters terminated by a blank, or a 
+sequence of characters surrounded by single quotes.
+
+A 'string' is a seqence of non-tilde characters terminated by a tilde.  A tilde
+is this character: '~'.  Thus, strings may contain blanks, and may be multiple
+lines long.  There is no limit on the length of an individual string; however,
+all strings go into a common memory pool whose size is fixed when the server is
+compiled.
+
+A 'number' is a decimal number with an optional leading '-' or '+'.  The '|'
+character may be used in any number: '1|64|1048576' has the value 1048641.  The
+individual values separated by '|' are added together, so '5|6' is 11, not 7.
+The components need not be powers of 2.  This feature is extremely useful for
+defining bit vectors, such as the ACT_* and AFF_* bits for mobiles, but is not
+restricted to bit vectors: any number may use the '|' construction.
+
+A 'to_eol' is all the characters from the current position to the end of the
+current input line.  It is used for parsing comments at the ends of lines.
+
+In the syntax description below, <value:type> indicates a value to be read of
+the indicated type.  A backslash '\' indicates that the file format itself has
+only one line, but several lines are used in this description to fit within
+80 columns.
+
+Braces '{ ... }' are used to enclose elements.  They are NOT literal parts of
+the file format, but a way of indicating that the enclosed elements may be
+repeated zero or more times.  Braces at the same level of indentation indicate
+that the parallel elements may be present in any order.
+
+All other characters in the syntax description are literal characters.
+
+Mobiles, objects, and rooms are identified by vnum (virtual number).  The range
+of vnum's is 1 to 32767.  Vnum's must be unique (for that particular kind of
+vnum).  Vnums do not have to be in increasing order.
+
+Typically an area uses the same range of vnum's for mobile vnum's, object
+vnum's, and room vnum's, starting with a multiple of 100.  This facilitates
+adding the area into an existing set of areas.
+
+=== The #AREA section
+
+The syntax of this section is:
+
+    #AREA	<area-name:string>
+
+The 'area-name' can be any string.  The 'areas' command provides a list of
+areas, so it's worth while to follow the standard Merc format for this string:
+
+    #AREA	{ 5 35} Merc    Prototype for New Area~
+
+The first two numbers are recommended level range.  The name is the name of the
+original author of the area.  The last phrase is the name of the area.
+
+=== The #HELPS section
+
+The syntax of this section is:
+
+    #HELPS
+    {
+	<level:number> <keywords:string>
+	<help-text:string>
+    }
+    0 $~
+
+The 'level' number is the minimum character level needed to read this section.
+This allows for immortal-only help text.
+
+The 'keywords' are a set of keywords for this help text.
+
+The 'help-text' is the help text itself.
+
+Normally when a player uses 'help', both the keywords and the help-text are
+shown.  If the 'level' is negative, however, the keywords are suppressed.  This
+allows the help file mechanism to be used for certain other commands, such as
+the initial 'greetings' text.
+
+If a 'help-text' begins with a leading '.', the leading '.' is stripped off.
+This provides for an escape mechanism from the usual leading-blank stripping of
+strings, so that picturesque greeting screens may be used.
+
+=== The #MOBILES section
+
+The syntax of this section is:
+
+    #MOBILES
+    {
+	#<vnum:number>
+	<keywords:string>
+	<short-description:string>
+	<long-description:string>
+	<description:string>
+	<act-flags:number> <affected-flags:number> <alignment:number> S
+	<level:number> <sex:number>
+    }
+    #0
+
+The 'vnum' is the virtual number of the mobile.
+
+The 'keywords' are words which can be used in commands to identify the mobile.
+
+The 'short-description' is the description used by the 'act' function and other
+functions to identify the mobile.
+
+The 'long-description' is the description used when a character walks in the
+room and the mobile is visible.
+
+The 'description' is the longest description.  It is used when a character
+explicitly looks at the mobile.
+
+The 'act-flags' define how the mobile acts, and the 'affected-flags' define
+more attributes of the mobile.
+
+The 'alignment' of the mobile ranges from -1000 to +1000.  Keep in mind that
+certain spells ('protection' and 'dispel evil') give characters fighting evil
+monsters an advantage, and that experience earned is influenced by alignment.
+
+The literal letter 'S' must be present after the alignment.  In the original
+Diku mob format, 'S' stands for simple.  Merc supports only simple mobs, so the
+'S' is redundant.  It is retained not only for compatibility with the Diku
+format, but also because it helps the server report errors more accurately.
+
+The 'level' is typically a number from 1 to 35, although there is no upper
+limit.
+
+The 'sex' value may be 0 for neutral, 1 for male, and 2 for female.
+
+=== The #OBJECTS section
+
+The syntax of this section is:
+
+    #OBJECTS
+    {
+	#<vnum:number>
+	<keywords:string>
+	<short-description:string>
+	<long-description:string>
+	<action-description:string>
+	<item-type:number> <extra-flags:number> <wear-flags:number>
+	<value-0:number> <value-1:number|word> <value-2:number|word> <value-3:number|word>
+	<weight:number> <cost:number> <cost-per-day:number>
+	{
+	    E
+	    <keyword:string>
+	    <description:string>
+	}
+	{
+	    A
+	    <apply-type:number> <apply-value:number>
+	}
+    }
+    #0
+
+The 'vnum' is the virtual number of the object.
+
+The 'keywords' are words which can be used in commands to identify the object.
+
+The 'short-description' is the description used by the 'act' function and other
+functions to identify the object.  The first character of the short-description
+should be lower case, because this description is used in the middle of
+sentences.
+
+The 'long-description' is the description used when a character walks in the
+room and the object is visible.
+
+The 'action-description' is not used.
+
+The 'item-type' is the type of the item (weapon, armor, potion, et cetera).
+
+The 'extra-flags' describe more attributes of the object.  The 'wear-flags'
+describe whether the item can be picked up, and if so, what bodily locations
+can wear it.
+
+The interpretation of the four 'value' numbers depends upon the type of the
+object.  Interpretations are given below.
+
+The 'weight' of the object is just that.
+
+'Cost' and 'cost-per-day' are ignored.  'Cost' is generated internally based on
+the level of the object.  Because Merc has no rent, 'cost-per-day' is
+completely ignored.
+
+The optional 'E' sections and 'A' sections come after the main data.
+An 'E' section ('extra description') contains a keyword-list and a string
+associated with those keywords.  This description string is used when a
+character looks at a word on the keyword list.
+
+An 'A' section ('apply') contains an apply-type and an apply-value.  When a
+character uses this object as equipment (holds, wields, or wears it), then
+the value of 'apply-value' is added to the character attribute identified by
+'apply-type'.  Not all 'apply-types' are implemented; you have to read the
+function 'affect_modify' to see exactly which ones are.
+
+An object may have an unlimited number of 'E' and 'A' sections.
+
+=== The #ROOMS section
+
+The syntax of this section is:
+
+    #ROOMS
+    {
+	#<vnum:number>
+	<name:string>
+	<description:string>
+	<area:number> <room-flags:number> <sector-type:number>
+	{
+	    D <door:number>
+	    <description:string>
+	    <keywords:string>
+	    <locks:number> <key:number> <to_room:number>
+	}
+	{
+	    E
+	    <keywords:string>
+	    <description:string>
+	}
+	S
+    }
+    #0
+
+The 'vnum' is the virtual number of the room.
+
+The 'name' is the name of the room.
+
+The 'description' is the long multi-line description of the room.
+
+The 'area' is obsolete and unused.  Rooms belong to whatever area was most
+recently defined with #AREA.
+
+The 'room-flags' describe more attributes of the room.
+
+The 'sector-type' identifies the type of terrain.  This affects movement cost
+through the room.  Certain sector types (air and boat) require special
+capabilities to enter.
+
+Unlike mobiles and objects, rooms don't have any keywords associated with them.
+One may not manipulate a room in the same way one manipulates a mobile or
+object.
+
+The optional 'D' sections and 'E' sections come after the main data.  A 'D'
+section contains a 'door' in the range from 0 to 5:
+
+	0	north
+	1	east
+	2	south
+	3	west
+	4	up
+	5	down
+
+A 'D' command also contains a 'description' for that direction, and 'keywords'
+for manipulating the door.  'Doors' include not just real door, but any kind of
+exit from the room.  The 'locks' value is 0 for an unhindered exit, 1 for a
+door, and 2 for a pick-proof door.  The 'key' value is the vnum of an object
+which locks and unlocks the door.  Lastly, 'to_room' is the vnum of the room to
+which this door leads.
+
+You must specify two 'D' sections, one for each side of the door.  If you
+specify just one then you'll get a one-way exit.
+
+An 'E' section (extended description) contains a 'keywords' string and a
+'description' string.  As you might guess, looking at one of the words in
+'keywords' yields the 'description' string.
+
+The 'S' at the end marks the end of the room.  It is not optional.
+
+=== The #RESETS section
+
+The syntax of this section is:
+
+    #RESETS
+    {
+	* <comment:to_eol>
+    }
+    {
+	M <:number> <mob-vnum:number> <limit:number> <room-vnum:number>	\
+	<comment:to_eol>
+    }
+    {
+	O <:number> <obj-vnum:number> <:number> <room-vnum:number>	\
+	<comment:to_eol>
+    }
+    {
+	P <:number> <obj-vnum:number> <:number> <obj-vnum:number>	\
+	<comment:to_eol>
+    }
+    {
+	G <:number> <obj-vnum:number> <:number>				\
+	<comment:to_eol>
+    }
+    {
+	E <:number> <obj-vnum:number> <:number> <wear_loc:number>	\
+	<comment:to_eol>
+    }
+    {
+	D <:number> <room-vnum:number> <door:number> <state:number>	\
+	<comment:to_eol>
+    }
+    {
+	R <:number> <room-vnum:number> <last-door:number>		\
+	<comment:to_eol>
+    }
+    S
+
+To reset an area, the server executes each command in the list of reset
+commands once.  Each area is reset once when the server loads, and again
+periodically as it ages.  An area is reset if it is at least 3 area-minutes old
+and is empty of players, or if it is 15 area-minutes old.  At the 14
+area-minute mark, each (awake) player in the area is warned of the impending
+reset.  These values are coded into the function 'reset_area'.
+
+An 'area-minute' varies between 30 and 90 seconds of real time, with an
+average of 60 seconds.  The variation defeats area timekeepers.
+
+The 'resets' section contains a series of single lines.  The backslashes and
+line splitting above are for readability; they are not part of the file format.
+Because of the end-of-line comments, this section is not as free-format as
+other sections.
+
+The reset commands are:
+
+    *	comment
+    M	read a mobile 
+    O	read an object
+    P	put object in object
+    G	give object to mobile
+    E	equip object to mobile
+    D	set state of door
+    R	randomize room exits
+    S	stop (end of list)
+
+The '*' lines contain comments.  The 'S' line is the last line of the section.
+
+Every other command contains four numbers (three for the 'G' command).  The
+first number is ignored.  The next three (or two) numbers are interpreted as
+follows:
+
+For the 'M' command, the second number is the vnum of a mobile to load.  The
+third number is the limit of how many of this mobile may be present in the
+world.  The fourth number is the vnum of the room where the mobile is loaded.
+
+For the 'O', 'P', 'G', and 'E' commands, the second number is the vnum of an
+object to load.  The third number is ignored.
+
+For the 'O' command, the fourth number is the vnum of the room where the object
+is loaded.  The object is not loaded if the target room already contains any
+objects with this vnum.  The object is also not loaded if any players are
+present in the area.
+
+For the 'P' command, the fourth number is the vnum of a container object where
+the object will be loaded.  The actual container used is the most recently
+loaded object with the right vnum; for best results, there should be only one
+such container in the world.  The object is not loaded if no container object
+exists, or if someone is carrying it, or if it already contains one of the
+to-be-loaded object.
+
+For the 'G' command, there is no fourth number.  If the most recent 'M' command
+succeeded (e.g. the mobile limit wasn't exceeded), the object is given to that
+mobile.  If the most recent 'M' command failed (due to hitting mobile limit),
+then the object is not loaded.
+
+For the 'E' command, the fourth number is an equipment location.  If the most
+recent 'M' command succeeded, that mobile is equipped with the object.  If the
+most recent 'M' command failed, then the object is not loaded.
+
+All objects have a level limit, which is computed by inheritance from the most
+recently read 'M' command (whether it succeeded or not) in 'area_update'.  As 
+distributed, an object's level equals the mobile level minus 2, clipped to the 
+range 0 to 35.
+
+For the 'D' command, the second number is the vnum of a room.  The third number
+is a door number from 0 to 5.  The fourth number indicates how to set the door:
+0 for open and unlocked; 1 for closed and unlocked; 2 for closed and locked.
+
+Room exits must be coherent: if room 1 has an exit to room 2, and room 2 has an
+exit in the reverse direction, that exit must go back to room 1.  This doesn't
+prevent one-way exits; room 2 doesn't HAVE to have an exit in the reverse
+direction.
+
+For the 'R' command, the second number is the vnum of a room.  The third number
+is a door number.  When this command, the doors from 0 to the indicated door
+number are shuffled.  The room will still have the same exits leading to the
+same other rooms as before, but the directions will be different.  Thus, a door
+number of 4 makes a two-dimensional maze room; a door number of 6 makes a
+three-dimensional maze room.
+
+Use of both the 'D' and 'R' commands on the same room will yield unpredicatable
+results.
+
+Any line (except an 'S' line) may have a comment at the end.
+
+=== The #SHOPS section
+
+The syntax of this section is:
+
+    #SHOPS
+    {
+	<keeper:number>						\
+	<trade-0:number> <trade-1:number> <trade-2:number>	\
+	<trade-3:number> <trade-4:number>			\
+	<profit-buy:number> <profit-sell:number>		\
+	<open-hour:number> <close-hour:number>			\
+	<comment:to_eol>
+    }
+    0
+
+Like the #RESETS section, the #SHOPS section has one command per line.
+
+The 'keeper' is the vnum of the mobile who is the shopkeeper.  All mobiles
+with that vnum will be shopkeepers.
+
+The 'trade-0' through 'trade-5' numbers are item types which the shopkeeper
+will buy.  Unused slots should have a '0' in them; for instance, a shopkeeper
+who doesn't buy anything would have five zeroes.
+
+The 'profit-buy' number is a markup for players buying the item, in percentage
+points.  100 is nominal price; 150 is 50% markup, and so on.  The 'profit-sell'
+number is a markdown for players selling the item, in percentage points.
+100 is nominal price; 75 is a 25% markdown, and so on.  The buying markup
+should be at least 100, and the selling markdown should be at most 100.
+
+The 'open-hour' and 'close-hour' numbers define the hours when the shopkeeper
+will do business.  For a 24-hour shop, these numbers would be 0 and 23.
+
+Everything beyond 'close-hour' to the end of the line is taken to be a comment.
+
+Note that there is no room number for a shop.  Just load the shopkeeper mobile
+into the room of your choice, and make it a sentinel.  Or, for a roving
+shopkeeper, just make it non-sentinel.
+
+The objects a shopkeeper sells are exactly those loaded by 'G' reset commands
+for that shopkeeper.  These items replenish automatically.  If a player sells
+an object to a shopkeeper, the shopkeeper will keep it for resale if he, she,
+or it doesn't already have an identical object.  These items do not replenish.
+
+=== The #SPECIALS section
+
+The syntax of this section is:
+
+    #SPECIALS
+    {
+	* <comment_to_eol>
+    }
+    {
+	M <mob-vnum:number> <spec-fun:word> <comment:to_eol>
+    }
+    S
+
+Like the #RESETS section, the #SPECIALS section has one command per line.
+
+This section defines special functions (spec-fun's) for mobiles.  A spec-fun
+is a C function which gives additional behavior to all mobiles with a given
+vnum, such as the peripatetic mayor or the beholder casting spells in combat.
+
+The 'M' command assigns 'spec-fun' to all mobiles of with virtual number
+'mob-vnum'.  All spec-fun's are assigned by name.  An 'M' line may have a
+comment at the end.
+
+Every three seconds, the server function 'mobile_update' examines every mobile
+in the game.  If the mobile has an associated spec-fun, then 'mobile_update'
+calls that spec-fun with a single parameter, the 'ch' pointer for that mob.
+The spec-fun returns TRUE if the mobile did something, or FALSE if it did not.
+If the spec-fun returns TRUE, then further activity by that mobile is
+suppressed.
+
+To add a new special function:
+
+(1) Add a DECLARE_SPEC_FUN line.
+
+(2) Add a line for translating the ascii name of the function into a function
+    pointer to the function 'spec_lookup'.
+
+(3) Write the spec-fun.  Note that Merc special functions take a single 
+    parameter, rather than the three parameters of Diku.  If you have an 
+    Ansi C compiler, you're protected against accidental mismatches.
+
+(4) Assign the spec-fun by writing an appropriate line into the #SPECIALS
+    section in an area file.  Any number of mobs may have the same spec-fun.
+
+=== The #$ section
+
+The syntax of this section is:
+
+    #$
+
+This section marks the end of an area file.  If you concatenate several area
+files into one, remember to delete the terminating '#$' from all but the last
+file.  Conversely, if you split area files, remember to terminate each new file
+with a '#$'.
+
+=== Meaning of Value Numbers by Item Type
+
+In the values below, 'spell name' is the name of a spell, as found in the 
+skill_list table.  
+
+01 ITEM_LIGHT
+   value[0]	unused
+   value[1]	unused
+   value[2]	hours of light available, 0 is dead, -1 is infinite
+   value[3]	unused
+
+02 ITEM_SCROLL
+   value[0]	level
+   value[1]	spell name
+   value[2]	spell name
+   value[3]	spell name
+
+03 ITEM_WAND
+   value[0]	level
+   value[1]	max charges
+   value[2]	current charges
+   value[3]	spell name
+
+04 ITEM_STAFF
+   value[0]	level
+   value[1]	max charges
+   value[2]	current charges
+   value[3]	spell name
+
+05 ITEM_WEAPON
+   value[0]	unused (server sets this to the minimum damage automatically)
+   value[1]	unused (server sets this to the maximum damage automatically)
+   value[2]	unused
+   value[3]	weapon type:
+      00	   hit
+      01	   slice
+      02	   stab
+      03	   slash
+      04	   whip
+      05	   claw
+      06	   blast
+      07	   pound
+      08	   crush
+      09	   grep
+      10	   bite
+      11	   pierce
+      12	   suction
+
+08 ITEM_TREASURE
+   value[0]	unused
+   value[1]	unused
+   value[2]	unused
+   value[3]	unused
+
+09 ITEM_ARMOR
+   value[0]	unused (server sets to the random armor value automatically)
+   value[1]	unused
+   value[2]	unused
+   value[3]	unused
+
+10 ITEM_POTION
+   value[0]	level
+   value[1]	spell name
+   value[2]	spell name
+   value[3]	spell name
+
+12 ITEM_FURNITURE
+   value[0]	unused
+   value[1]	unused
+   value[2]	unused
+   value[3]	unused
+
+13 ITEM_TRASH
+   value[0]	unused
+   value[1]	unused
+   value[2]	unused
+   value[3]	unused
+
+15 ITEM_CONTAINER
+   value[0]	weight capacity
+   value[1]	flags: 1 closeable, 2 pickproof, 4 closed, 8 locked
+   value[2]	key vnum
+   value[3]	unused
+
+17 ITEM_DRINK_CON
+   value[0]	capacity
+   value[1]	current quantity
+   value[2]	liquid number (see 'liq_table')
+   value[3]	if non-zero, drink is poisoned
+
+18 ITEM_KEY
+   value[0]	unused
+   value[1]	unused
+   value[2]	unused
+   value[3]	unused
+
+19 ITEM_FOOD
+   value[0]	hours of food value
+   value[1]	unused
+   value[2]	unused
+   value[3]	if non-zero, food is poisoned
+
+20 ITEM_MONEY
+   value[0]	value in gold pieces
+   value[1]	unused
+   value[2]	unused
+   value[3]	unused
+
+22 ITEM_BOAT
+   value[0]	unused
+   value[1]	unused
+   value[2]	unused
+   value[3]	unused
+
+23 ITEM_CORPSE_NPC
+   value[0]	unused
+   value[1]	unused
+   value[2]	unused
+   value[3]	unused
+
+24 ITEM_CORPSE_PC
+   value[0]	unused
+   value[1]	unused
+   value[2]	unused
+   value[3]	unused
+
+25 ITEM_FOUNTAIN
+   value[0]	unused
+   value[1]	unused
+   value[2]	unused
+   value[3]	unused
+
+26 ITEM_PILL
+   value[0]	level
+   value[1]	spell name
+   value[2]	spell name
+   value[3]	spell name
+
+=== Booting and Testing Areas
+
+When the Merc server starts, it reads a file named 'area.lst' in the current
+directory.  This file contains a list of all the area files to read in.  To add
+or delete areas, simply edit area.lst.
+
+The server reads all of the area files into memory once at load time and then
+closes them.  Thus you can edit area files while the server is running.
+Changes will take effect the next time the server boots.  
+
+You can test areas by running Murk in a different directory with a different 
+'area.lst' file with new areas dropped into it.  
+
+The server reports syntax errors, including the area file name and a line
+number.  Take the line number with a grain of salt; some kinds of errors cause
+the server to run on for quite a few lines before ultimately detecting the
+error.
+
+The server detects and reports most area-file errors that crash other muds,
+often including the area file name and line number.  The server refuses to run
+with bad files.  Thus if you import areas, and they're dirty, you'll have to
+clean them before you can use them.
+
+The server also reports semantic errors, such as references to non-existent
+mobiles, objects, or rooms.
+
+=== Current Vnum Assignments by area
+
+00 limbo.are    
+30 midgaard.are 
+31 midgaard.are 
+32 midgaard.are 
+33 midgaard.are 
+37 school.are   
+===========================================================================
+
+== Server modification guide
+
+=== The function 'send_to_char'
+
+The central output functions are 'send_to_char' and 'act'.  Of the two,
+'send_to_char' is much simpler, faster, and less powerful.
+
+The interface for send_to_char is:
+
+    void Character::send_to_char( const std::string & txt )
+
+The string 'txt' is sent to the character.  That's all there is to it.
+
+=== The function 'act'
+
+The function 'act' is much hairier.  The following section is a precise
+reference guide.  If you don't already have some notion of what 'act' format
+strings look like, then you should read some code which uses 'act' (such as
+some of the spell functions) to get a concrete introduction to this
+function.
+
+    void Character::act( const std::string & str, Object *obj, 
+      const void *vo, int type )
+
+    const std::string & str;
+
+	This is a format string, with formatting specifications introduced
+	by '$' (just as 'printf' introduces its formatting sequences with '%').
+	Typically this is a complete sentence with a subject and an object.
+
+    Character *this;
+
+	This is the subject of the sentence.
+
+    Object *obj;
+
+	This is the object of the sentence.
+
+    const void *vo;
+
+	This is the target of the sentence, as well as possibly the object of
+	the sentence.  This may be either a character, an object, or a text 
+	string.
+
+    int type;
+
+	This is the 'to' type of the sentence.  Values are:
+
+	    TO_CHAR	Send only to 'this'.
+	    TO_VICT	Send only to 'vo' (and then only if vo != this).
+	    TO_ROOM	Send to all chars in room except 'this'.
+	    TO_NOTVICT	Send to all chars in room except 'this' and 'vict'.
+
+	In every case, only characters in the same room as 'this' are considered.
+
+    Global boolean MOBTRIGGER;
+
+	This is the global variable used to allow the mobprograms to trigger.
+	It is default TRUE.
+
+Each awake character in the same room as 'this' is considered for output.  (Thus
+'this' must always be a legitimate character whose location is not NOWHERE).  If
+the target character meets the 'type' requirements, then the formatting string
+'str' is used to construct an output string, with '$' sequences substituted
+using values from 'ch', 'obj', and 'vo'.  
+
+In the substitution of '$' sequences, attention is paid to visibility by
+calling 'can_see' and 'can_see_obj' as needed.
+
+The first character of the output string is always capitalized.
+
+=== The '$' sequences
+
+Here are all the '$' sequences supported by 'act':
+
+    $T
+	Result is simply the 'vo' argument interpreted as a string.
+
+    $n
+	Result is the name of 'this'.  If 'this' is not visible to the target
+	character, result is the string 'someone'.
+
+    $N
+	Result is the name of 'vo' (considered as a victim).  If 'vo' is not
+	visible to the target character, result is the string 'someone'.
+
+    $e
+	Result is 'he', 'she', or 'it', depending on the sex of 'this'.
+
+    $E
+	Result is 'he', 'she', or 'it', depending on the sex of 'vo'
+	(considered as a victim).
+
+    $m
+	Result is 'him', 'her', or 'it', depending on the sex of 'this'.
+
+    $M
+	Result is 'him', 'her', or 'it', depending on the sex of 'vo'
+	(considered as a victim).
+
+    $s
+	Result is 'his', 'her', or 'its', depending on the sex of 'this'.
+
+    $S
+	Result is 'his', 'her', or 'its', depending on the sex of 'vo'
+	(considered as a victim).
+
+    $p
+	Result is the short description of 'obj'.  If 'obj' is invisible to the
+	target character, result is the string 'something'.
+
+    $P
+	Result is the short description of 'vo', considered as an object.  If
+	'vo' is invisible to the target character, result is the string
+	'something'.
+
+    $d
+	Result is the first word in 'vo', considered as a string.  If 'vo' is
+	NULL, result is the string 'door'.  This is meant for extracting the
+	name from a door's keyword list, but may be used in general for other
+	keyword lists.
+
+=== Classes
+
+The central organizing table for classes is class_table, which is an array of
+type 'struct class_type'.  Mobs have class 0, and players have classes 0 
+through MAX_CLASS-1.
+
+The fields of class_table are:
+
+    char *	who_name;
+
+	This three-letter name is used for the 'who' listing.  It's also used
+	for the list of classes shown to new characters for selecting a class,
+	and for matching the player's input in selecting a class.
+
+    sh_int	attr_prime;
+
+	This attribute is initialized to 16 for new chars of this class.  It
+	costs only three practices to train one's prime attribute, versus five
+	practices for any other attribute.  In addition, characters may
+	increase their prime attribute (only) over 18 by using magic items.
+
+    sh_int	weapon;
+
+	This object (vnum) is given to new characters of this class for their
+	first weapon.
+
+    sh_int	guild;
+
+	This room (vnum) is off limits to characters of other classes.
+
+    sh_int	skill_adept;
+
+	This is the maximum level to which a character of this class may train
+	a skill or spell.
+
+    sh_int	thac0_00;		/* Thac0 for level  0		*/
+    sh_int	thac0_32;		/* Thac0 for level 32		*/
+
+	These are thac0's (To Hit Armor Class 0) for a level 0 character and a
+	level 32 character of this class.  Thac0 for any particular level is
+	computed by linear interpolation.
+
+    sh_int	hp_min;			/* Min hp gained on leveling	*/
+    sh_int	hp_max;			/* Max hp gained on leveling	*/
+    bool	fMana;			/* Class gains mana on level	*/
+
+	The fields hp_min and hp_max are the minimum and maximum hit points
+	gained on advancing a level (in addition to the constitution bonus).
+	If fMana is true, than the class gains mana when leveling.
+
+=== Other class-specific tables
+
+(1) skill_table contains the level needed for each class to use a particular 
+    skill or spell.  If the class cannot use that skill or spell, the level 
+    needed is set to 37, so that immortals (angels and above) can use it.  
+    This table is indexed first by sn (skill/spell number) and then by class.
+
+(2) title_table contains the titles, indexed by class, then by level, then 
+    by sex.  There are two titles for each class at each level.
+
+=== Adding a new class
+
+Here's how to add a new class:
+
+(1) Increment 'MAX_CLASS'.
+
+(2) Add a new entry to 'class_table'.
+
+(3) Add sn level numbers to 'skill_table' for the new class.  Set the level 
+    to 37 for all skills or spells which the class is unable to use.
+
+(4) Add an entire new block of titles to 'title_table'.
+
+=== Immortal Levels
+
+Here are the immortal levels:
+
+36	Hero	This is the highest level ordinary players can reach by
+		accumulating experience points.  Heros and heroines can
+		participate in 'immtalk' and read notes addressed to
+		'immortal'.  They no longer receive experience points.
+
+37	Angel	Immortals at this level can observe most aspects of the game,
+		but have very few active commands.  One command they do have
+		is 'switch' so that they can help run quests.
+
+38	Deity	Immortals at this level have all the commands needed to affect
+		game elements within the game, such as 'mload', 'mset',
+		'oload', and 'oset'.
+
+39	Supreme	Immortals at this level have site and connection level
+		commands, such as 'hotboot' and 'shutdown'.  In fact, this level
+		has access to all immortal commands except 'advance'.
+
+40	God	Immortals at this level have 'advance'.
+
+=== Commands
+
+The central organizing table for skills and spells is cmd_table, an array
+of type 'struct cmd_type'.
+
+The fields of cmd_table are:
+
+    char *	name;
+
+	The name of the command.  Command lookup is by partial matching on the
+	name; the first match (which also meets level restrictions) is used.
+
+    cmdfun_T 	do_fun;
+
+	The function for this command.  A 'do_fun' takes two arguments: the
+	character who is issuing the command and the rest of the argument
+	string after the command name.
+
+    sh_int	position;
+
+	The minimum position for using this command.
+
+    sh_int	level;
+
+	The minimum level for using this command.  This is usually used for
+	restricting certain commands to immortals.
+
+    sh_int	log;
+
+	The type of logging to perform.  LOG_NORMAL commands are logged just
+	when the player is logged.  LOG_ALWAYS commands are always logged.
+	LOG_NEVER commands are never logged, even if the player is logged.
+
+=== How to Add a Command
+
+(1) Add a line for the command in 'cmd_table'.
+
+(2) Add a line for the command in 'cmd_list.hpp'.
+
+(3) Write the member function for teh Character class.
+
+(4) Write a help section for the function.  See 'help.are' for the format of
+    help entries.  We suggest you start your own file of customized help rather
+    than adding into 'help.are'.  This will make it easier for you to upgrade
+    to future releases of Merc (which will have upgraded 'help.are' files).
+    Merc supports as many help files as you want.
+
+That's ALL there is to it!
+
+=== Social Commands
+
+Social commands add to the atmosphere of the game.  The social commands are
+contained in 'social_table'.  The fields of this table are:
+
+    char *	name;
+
+	The name of the social command.
+
+    char *	char_no_arg;
+
+	The message sent to the character when no argument is given.
+
+    char *	others_no_arg;
+
+	The message sent to others when no argument is given.
+
+    char *	char_found;
+
+	The message sent to the character when a victim is found.
+
+    char *	others_found;
+
+	The message sent to others when a victim is found.
+
+    char *	vict_found;
+
+	The message sent to the victim when a victim is found.
+
+    char *	char_auto;
+
+	The message sent to the character when the victim IS the character.
+
+    char *	others_auto;
+
+	The message sent to others when the victim IS the character.
+
+All of these messages are 'act' messages and may use any '$' sequences (the
+'act' function is documented in 'act.txt').  If the command is not found in the
+regular command table, the function 'check_social' looks in 'social_table' for
+a match.  This is the last stop before rejecting the command.
+
+Socials without arguments, such as 'hop', may have NULL for the strings sent
+when arguments are present.
+
+=== How to Add a Social Command
+
+(1) Edit the 'socials' file and rebuild the database.
+
+That's ALL there is to it.
+
+=== Player File Format
+
+Player files are ascii files.
+
+A player file contains a player section followed by one or more object
+sections.  Each section contains several lines.  Each line contains a
+keyword followed by a value.
+
+An old Internet dictum says 'be conservative in what you send and liberal
+in what you accept'.  Thus Merc writes player files in a fixed order, but
+accepts flexible ordering, partial files, et cetera.
+
+There are two section types: #PLAYER and #OBJECT.  The #PLAYER section
+defines player values.  Each #OBJECT section defines one object.  A third
+section type, #MOB, is partially implemented and may be implemented in a
+future release.
+
+Merc writes one #PLAYER section per file, but will read multiple sections.
+If the same value is specified twice the later value generally overrides
+earlier values; some lines, such as the 'Affect line', just append more
+affects.  If a value is not specified, some default value is used.
+
+Players are saved with their equipment on.  Thus, the values in the #PLAYER
+section reflect current equipment applies, including 'Hitroll', 'Damroll',
+'Armor', and 'AttrMod', as well as hit points, mana, move, and others.
+Thus, great care is needed when adding or deleting objects which a player
+is currently wearing.
+
+A #OBJECT section contains all the object values, including the object's
+current wear location.  Objects which have been 'oset' retain all of their
+values.  Again, editing an object which is currently being worn requires
+care; the corresponding #PLAYER state must also be changed to match.
+
+Each #OBJECT has a nesting level.  Objects in inventory or equipment list have
+nesting level 0.  Objects inside a container in inventory or equipment list
+have nesting level 1.  Objects inside a level-1 object are level 2, et cetera.
+Objects deeper than nesting level 100 are quietly discarded.  This nesting
+level is used to reconstruct container contents when loading objects.  Thus,
+if you delete a container from a file, its objects are likely to be loaded
+inside the previous object; and if that's not a container, the player will be
+unable to get them out of the object.  To avoid this problem, reset the
+nesting level of each contained object to 0.
+
+Objects are stored in the file in reverse inventory-order list.  This is not
+pretty, but it allows the use of standard 'obj_to_obj' and 'obj_to_char' calls
+to construct the object lists.
+
+You may add new fields to players and objects.  Because of the line-oriented
+ascii format, changing a structure size in 'merc.h' will never invalidate a
+player file.   Naturally, you must ensure that when an old file which does
+not contain a line for a new field is read in, the new field is set to some
+reasonable default value.  E.g., if you add a 'home town' name for players,
+then initialize it to 'Midgaard' before reading in the player file, so that
+old players get the 'Midgaard' value, and new players get whatever value is
+on that line of their file.
+
+Similarly if you delete a field from the player or object structure, you
+must leave the parsing line for it in 'fread_char' or 'fread_obj'; simply
+assign it into a dummy variable.  This allows your old player files to
+continue loading.
+
+=== How to Add a New Char Field
+
+(1) Add the field to the appropriate class.
+
+(2) Initialize the field in 'create_char' or 'clear_char'.
+
+(3) Initialize the field in 'load_char_obj' if needed.
+    Make sure that old players which do not have the field are
+    initialized to a reasonable value.
+
+(4) Add lines to write out the field in 'fwrite_char'.
+
+(5) Add lines to read in the field in 'fread_char'.
+
+
+=== How to Add a New Object Field
+
+(1) Add the field to the appropriate class.
+
+(2) Initialize the field in 'create_object'.
+
+(3) Initialize the field in 'fread_obj' if needed.
+    Make sure that objects which do not have the field are
+    initialized to a reasonable value.
+
+(4) Add lines to write out the field in 'fwrite_obj'.
+
+(5) Add lines to read in the field in 'fread_obj'.
+
+=== Security Features
+
+The 'deny' command can be used to set a character's PLR_DENY bit.  This bit
+cannot be reset from within the server (and the player can't log on anyways to
+get it reset).  In order to un-deny a player, edit their save file, and
+subtract the value of PLR_DENY (1048576) from their 'AffectedBy' bits.
+
+You can also 'deny' a player off-line by editing his or her player file and
+adding in the PLR_DENY bit (1048576) to their 'AffectedBy' bits.
+
+The 'ban' command can be used to ban sites or domains.
+
+The 'startup' script automatically redirects stdout and stderr output to log 
+files in the current directory.
+
+The server is protected against input spamming.
+
+=== Game Balance Features
+
+There are level limits on grouping.
+
+Objects have level restrictions on their use.
+
+There are limits on saved items.  Keys and potions do not save.  Items which
+are higher level than the character are not saved.  This protects against
+storage characters.
+
+If you do need to confiscate equipment, just fire up your favorite editor and
+edit the player files.
+
+Many commands, such as 'backstab', 'pick lock', and 'steal', have wait states
+and level limits on them.  This protects against low-level thieves plundering
+the game.
+
+There are very few ways to leave combat.  Breaking link will invoke attempts
+to auto-recall, but with a low chance of success.  'Summon' may not be used
+on a character in combat.  'Recall' has less chance of succeeding than fleeing.
+In summary, the best way out of combat is fleeing.
+
+Offensive spells start combat -- no free attempts at 'sleep', 'dispel magic',
+or other such spells.  Offensive spells may not be cast on other players.
+
+Players no longer gain experience from pkilling.
+
+The 'summon' spell will not summon a character into a different area.
+
+The 'tell' command will not 'tell' to mobiles which are not in the room.
+
+The 'tick' interval, as well as other game intervals such as the zone reset
+interval, have random variation.
+
+Aggressive mobiles check for aggression on every game pulse.  Thus it is not
+possible to 'run past' aggressive mobiles.
+
+It is not possible to leave the game without an auto-save being done (e.g.
+by breaking link).  The game auto-saves players on death, and it auto-saves
+players periodically (one player each tick).
+
+The 'R' reset command may be used to scramble room exits on area reset, so that
+players have to map a maze each time they enter.
+
+Players may loot only their own corpses or their own groups' corpses.  Other
+corpse looting is punished with a PLR_THIEF flag.
+
+=== Skills and Spells
+
+The central organizing table for skills and spells is skill_table, an array
+of type 'struct skill_type'.  Skills include spells as a special case.  
+Indexes into this table are 'skill numbers' or 'spell numbers', abbreviated 
+'sn'.  An 'sn' is a purely internal value, and can vary over time as skills 
+and spells are added.  This way, the skill table can be expanded conveniently.
+
+The 'practice' command and player saving/loading are completely table-driven
+from skill_table.  Skills and spells may be freely added or deleted without
+changing these functions.
+
+The fields of skill_table are:
+
+    char *	name;
+
+	The name is used for practising the skill or spell and by the 'cast'
+	command.  Mobiles which cast spells also often invoke the spell by
+	name.  Save files contain this name.
+
+    sh_int	skill_level[MAX_CLASS];
+
+	This array is indexed by character class, GET_CLASS(ch).  It contains
+	the minimum level which each class needs in order to practice the skill
+	or spell.  If a given class cannot use this skill or spell, the level
+	is set to 37, so that all immortals can use all skills and spells.
+	Mobiles ignore this table; generally their skill percentages are a
+	simple function of level.
+
+    SPELL_FUN *	spell_fun;
+
+	This is the function which implements the spell.  Spell functions
+	take four arguments: an 'sn', a level, a caster, and a pointer to a
+	target victim or object.  This field is unused for skills.
+
+    sh_int	target;
+
+	This identifies the targets of the spell.  The legal values are:
+
+	    TAR_IGNORE			Spell chooses its own targets.
+	    TAR_CHAR_OFFENSIVE		Spell is offensive (starts combat).
+	    TAR_CHAR_DEFENSIVE		Spell is defensive (any char is legal).
+	    TAR_CHAR_SELF		Spell is personal-effect only.
+	    TAR_OBJ_INV			Spell is used on an object.
+
+	PC's may not cast TAR_CHAR_OFFENSIVE spells on other PC's.  These
+	spells also cause the victim to attack the caster.
+
+	This field is unused for skills.
+
+    sh_int	minimum_position;
+
+	This is the minimum position needed to cast the spell.  It is always
+	either POSITION_FIGHTING or POSITION_STANDING.  This field is unused
+	for skills.
+
+    sh_int	min_mana;
+
+	This is the minimum mana required to cast this spell by a sufficiently
+	high level spell caster.  A lower level spell caster will need more
+	mana than the minimum; see 'do_cast' in 'magic.c' for the algorithm.
+	This field is unused for skills.
+
+    sh_int	beats;
+
+	This is the delay time, in pulses, imposed on the user of a spell or
+	caster of a spell.  One pulse is 0.25 second (this is derived from
+	PULSE_PER_SECOND in merc.h).
+
+    char *	noun_damage;
+
+	This is a noun or noun phrase containing the damage message for skills
+	or spells that perform damage.
+
+    char *	msg_off;
+
+	This is the message sent to the character when the skill or spell wears
+	off.
+
+=== Examples
+
+    {
+	"fireball", { 15, 37, 37, 37 },
+	&Character::spell_fireball, TAR_CHAR_OFFENSIVE,	POS_FIGHTING,
+        15, 12, "fireball", "!Fireball!"
+    },
+
+	This is a fifteenth level magic-user spell.  The slot number is 26.  It
+	costs 15 mana, and imposes 12 pulses (3 seconds) of delay time on the
+	caster.  It's an offensive spell, and can be used either fighting or
+	standing.  There is no gsn.  The damage message will say 'fireball',
+	and the wear-off message has a strange form to indicate errors because
+	this spell is instantaneous.
+
+    {   
+        "armor", {5, 1, 37, 37},
+        &Character::spell_armor, TAR_CHAR_DEFENSIVE, POS_STANDING,
+        5, 12, 
+        "", "You feel less protected."
+    },
+
+	This is a fifth level magic-user or first level cleric spell.  It can
+	be cast on any char without starting a fight.  It has no damage message
+	but does have a wear-off message.
+
+    {
+	"gas breath",		{ 35, 37, 37, 37 },
+	&Character::spell_gas_breath,	TAR_IGNORE,		POS_FIGHTING,
+	0,	 4,
+	"blast of gas",		"!Gas Breath!"
+    },
+
+	This is one of the dragon-breath spells.  It is accessible only to
+	35th level magic users.  The spell selects its own targets (TAR_IGNORE)
+	rather than using the common spell-driver target selection code.
+
+    {
+	"pick lock",		{ 37, 37,  1, 37 },
+	&Character::spell_null,		TAR_IGNORE,		POS_STANDING,
+	0,	12,
+	"",			"!Pick!"
+    },
+
+	This is a first-level thief skill.  Many of the fields are unused.
+	This skill has a gsn, so that do_pick_lock does not have to call
+	'skill_lookup' to find the sn.
+
+=== The spell driver
+
+The spell driver level is the first half of 'magic.c'.  It consists of
+'do_cast' for the 'cast' command and 'obj_cast_spell' which is called from
+'do_brandish', 'do_eat', 'do_quaff', 'do_recite', and 'do_zap'.
+
+The spell driver takes care of level checking, position checking, target
+selection, target validation (such as preventing PC's from casting offensive
+spells on other PC's), staff area effect (just multi-target selection), mana
+costs, wait states, and starting combat for offensive spells.  All of these
+things are table-driven by 'skill_table'.
+
+The spell function itself takes care of calling functions like 'damage' and
+'affect_to_char'.  Read the existing ones to see what is needed for a new one.
+
+Some spells, such as 'earthquake', 'locate object' or 'summon', perform their
+own target selection.  These spells are target type TAR_IGNORE.  Within the
+spell function, the variable 'target_name' is available (set by the spell
+driver).
+
+=== Adding a new spell
+
+(1) Choose appropriate values for the other 'skill_table' fields, and write
+    your new paragraph.  Order is immaterial.
+
+(2) Add the 'spell_*' function declaration to the Character class.
+
+(3) Add the code for the spell function.
+
+(4) If your spell needs 'AFF_*' bits, create new 'AFF_* bits'.
+
+(5) You may need to increase 'MAX_SKILL'.
+
+=== Adding a new skill
+
+For skills, only some of the fields are relevant: 'name', 'skill_level',
+'beats', 'noun_damage', and 'msg_off' are used; 'min_mana', 'spell_fun', 
+'target', and 'minimum_position' are not used.
+
+Skills are either automatic (such as 'parry') or manual (such as 'rescue').
+Many automatic skills are referenced in 'fight.c'; look at 'multi_hit' for
+examples.
+
+An explicit skill such as 'rescue' has its associated command 'do_rescue'.
+This command is defined and called in the normal way.  
+
+To add a new skill:
+
+(1) Choose appropriate values for the 'skill_table' fields, and write your new
+    paragraph.  Order is immaterial.
+
+(2) If the skill is automatic, just use 'ch->pcdata->learned[gsn_new_skill]'
+    in your code.  If your skill is manual, you need to write an appropriate
+    command function for it.
+
+(3) You may need to increase 'MAX_SKILL'.
+===========================================================================
+
+== MOBprograms
+
+MOBprograms are a way to make your mobiles more interesting.  This basic 
+version has enough to get things going, and should be quite readable and
+understandable and more to the point, extendable. The remainder of this
+document describes MOBprograms and gives a couple trivial examples.
+
+=== The Basic Idea
+
+Ever wonder why most muds either seem dead or overcrowded? The answer
+is probably partially due to the fact that the mobiles never do anything
+but wait to be slaughtered.  Unless someone has gone to great lengths
+and added many special procedures, most mobiles have no idea you are in
+the room with them and rarely listen to what you say. The typical Midgaard
+mayor wanders happily along even when the populace pokes him, waves his
+City Key about, unlocks his gates, or frenchs his secretary, etc. So a way to
+give the mobiles a bit more spirit would be neat. Enter the MOBprograms.
+
+The backbone of the MOBprograms shall be called triggers from this
+point on.  Essentially, they are procedure calls placed in sneaky places in
+the mud code which provide the context for what is going on around the
+mobile.  So, if something happens in the mobile's room and a trigger is
+activated, then a list of commands is sent to the interpreter in the
+mobile's name, thus making her/it/him do an appropriate something.
+
+Since knowing the appropriate response for every mobile to every
+possible trigger is not easy, this command list shouldnt be a rigid script, but
+needs to be somehow unique for the mobile and the situation.  However, in
+order to know the situation, a mobile needs to know more about the trigger
+than that it just happened. So, we have to include some sort of variables
+as well to set the context appropriately.
+
+As most implementors know, most area creators are not versed in
+coding, but usually have great ideas. Therefore, whatever system is used needs
+to be quite simple. This is not to demean creators in anyway. Simply, it is
+useless to have a powerful system, if the only person able to write anything
+is someone who finds C coding in general to be exciting and non frustrating. 
+If that is going to be the case, then stick to the special procedures, since
+there is no bound to what a complex special procedure can accomplish. Yet,
+from experience working on several muds, most admins and implementors prefer
+not to be writing one shot spec_procs to satisfy the needs of their creators.
+ 
+Thus, the basic idea: let mobiles react to a myriad of mud
+events/situations by having them perform a list of commands which can be
+tailored to the moment through a simple and unintimidating scheme usable by
+any creator.
+
+=== MOBprogram Syntax
+
+The simplest way to describe any syntax is by example, so here goes.
+First, define the notation: anything contained in braces {} is required,
+anything in brackets [] is optional, anything in quotes "" is a case
+insensitive literal, NL refers to a required new-line. The meanings of
+the labels used will be described following the syntax diagram.
+
+">" {trigger_type} " " {argument_list} "~" NL
+{program_command_1} NL
+{program_command_2} NL
+{program_command_3} NL
+     .   .   .
+{program_command_N} NL
+"~" NL
+
+-- Explanations
+
+A TRIGGER_TYPE is one of the available triggers.
+A PROGRAM_COMMAND can be any legal mud command, or a control flow command.
+The ARGUMENT_LIST depends upon the trigger, but it is always parsed into the
+	system as a character string.
+
+This is an example of ONE MOBProgram block for a mob.
+
+=== Associating MOBprograms With A Mobile
+
+There are two ways for the mud to associate the program with the
+mobile.  In either case, the result is a link list of mob_programs which are
+attached to the mobile_prototype.  This is done at boot time, and so only one
+copy is kept, regardless of how many instances of the mobile are running
+about. This also means that there is no dynamic way to edit or modify the
+MOBprograms.
+
+The first involves a simple in-file approach.  In the mobile section
+of your area files, at the end of the mobile's block (i.e. on the line
+following the typical position/default position/sex line), append any number
+of MOBprograms blocks (using the syntax above) followed by a line starting
+with one '|' (pipe).  Example provided:  Example.are
+
+The second method is to add a #MOBPROGS section to the area files.
+Logically this section should follow the #MOBILE section since otherwise the
+mobiles probably wont have space allocated for them. In the #MOBPROGS section,
+list as many lines as you desire of:
+
+	"M" {Vnum} {MOBprogram_filename} NL
+
+followed by a line starting with a 'S' (case insensitive)
+
+--Explanations
+
+The VNUM is whatever number mobile to which you are associating the MOBprogram.
+The MOBPROGRAM_FILENAME is the name of the external file of MOBprograms.
+It is not case INsensitive and may include directory heirarchies (foo/bar/xx)
+
+NOTE:  MERC 2.2 provides for a separate directory called MOBProgs.  Any
+directory heirarchies branch from the Merc2/area/MOBProgs directory.
+
+=== MOBprogram Files
+
+Since it is often useful to have the same MOBprograms affecting several
+different mobiles, referencing MOBprograms stored in an external file
+is needed. As described above, if the second method is used, such a file
+is already being referenced. Using the first method, in place of a true
+MOBprogram block, one can place the dummy line in the #MOBILE section of the
+*.are file in place of the MOBProgram block(s).
+
+	">" "in_file_prog" {MOBprogram_filename} "~" NL
+
+Note there is no list of program_commands as well as no second tilde ~.
+
+In a file, the syntax is exactly the same as it is for a in_file approach:
+
+	A list of MOBprogram (NOT including any dummy in_file_prog
+	lines, sorry but recursion was outlawed for simplicity)
+	blocks followed by a line starting with one '|' (pipe).
+	Example provided:  Beggar.prg
+
+More than one mobile can use the same file and one mobile can call more
+than one file.  Files referenced using the dummy in_file_prog line are
+placed in the MOBprogram list at the point where the dummy line exists.
+Files referenced using the #MOBPROG section are added to the end of the
+mobiles MOBprogram list. This is important because the only the first
+successful MOBprogram of some trigger_types is checked. These are described
+below.
+
+=== Trigger Types
+
+Triggers are fairly easy to add, but this basic list should hold for
+most needs. Their names, argument list syntaxes, and translation into 
+more articulate english are given below:
+
+Syntax:  in_file_prog <ARGUMENT>
+
+The argument is a single word which is the location of the stored
+file as referenced from the running directory (MOBProgs).
+
+NOTE:  Dummy trigger. Not valid in any file, only for use in loading files
+	from the first method described two sections above.
+
+Syntax:  act_prog [p] <ARGUMENT>
+
+The argument is a list of keywords separated by spaces. If the
+first word is the character 'p' by itself then the rest of the word list is
+considered to be a phrase.  The trigger is activated whenver a keyword (or
+the phrase) is contained in the	act() message. Both the phrase and keywords
+are case insensitive.
+
+NOTE:  Most general trigger. Applies to almost every event which happens
+	in the mud. Anytime the function act() is called with a message
+	to be delivered TO_CHAR,TO_VICT,TO_ROOM,etc. the act can be
+	triggered.  Basically this will trigger on almost everything
+	you'll ever want (and some things you wont as well) For example:
+	MOBprogram: >act_prog p pokes you in the ribs.~
+	This trigger will only be activated if a mobile receives a message
+	in which the above five words are found in the exact order and
+	spacing given. Note that the period is needed because the words
+	must be found on their own. This eliminates confusion when the
+	keyword is 'hi' and a message with the word 'this' is being checked.
+
+Syntax:  speech_prog [p] <ARGUMENT>
+
+	The argument is the same as for an act_prog.
+
+NOTE:  This is only triggered when the keyword or phrase is contained in a
+	message which has been said by a PC in the same room as the mob.
+	The PC restriction is not necessary, but makes infinite loops
+	between two talking mobiles impossible. It also makes it impossible
+	for two NPC's to stand and discuss the weather however. 
+
+Syntax:  rand_prog <NUMBER>
+
+	The argument is a number betweeen 1 and 100 inclusive.
+
+NOTE:  This trigger is checked at each PULSE_MOBILE and if the argument is
+	greater than a percentage roll the trigger is activated. This
+	will happen even if there is no PC in the room with the mob,
+	but there must be players in the same area. 
+	It is useful to give mobiles a bit of a personality. For instance
+	a janitor who stops to spit tobacco, or complain about the hours,
+	or wonder why there are no woman janitors on muds, or a fido which
+	barks or growls or pees on the curb is much more alive than one
+	which just sits there scavenging.
+
+Syntax:  fight_prog <NUMBER>
+
+	The argument is a percentage like in rand_prog.
+
+NOTE:  Useful for giving mobiles combat attitude.  It is checked every
+	PULSE_VIOLENCE when the mobile is fighting.  Can be used to cast
+	spells, curse at the opponent, or whatever. Only the first successful
+	one will be processed to save time.  Also, this means that the
+	mobile wont get lucky and 1. curse, cast a fireball and 2. spit on the
+        player, cast another fireball in the same pulse.
+
+Syntax:  hitprcnt_prog <NUMBER>
+
+	The argument is a percentage.
+
+NOTE:  Is activated at each PULSE_VIOLENCE when the mobile is fighting. It
+	checks to see if the hitpoints of the mobile are below the given
+	percentage.  Multiple hitprcnt_progs should be listed in increasing
+	order of percent since a 40% will always be activated before a 20%
+	and, only the first successful hitprcnt trigger is performed.
+
+Syntax:  greet_prog <NUMBER>
+
+	Again a percentage argument.
+
+NOTE:  Whenever someone enters the room with the mobile, and the mobile saw
+	the person enter, this is checked. Good for shopkeepers who want
+	to welcome customers, or for pseudo-aggressive mobiles which need to
+	discriminate on who they attack.
+	
+Syntax:  all_greet_prog <NUMBER>
+
+	Again a percentage argument.
+
+NOTE:  Like greet_prog, but it can be triggered even if the mobile didnt
+	see the	arrival (i.e. sneak, invis, etc). Most useful for faking
+	teleport rooms (if your mobiles can transfer) or for impassable
+	guardians.
+
+    **NOTE: neither greet_prog is activated if the mobile is fighting.**
+	
+Syntax:  entry_prog <NUMBER>
+
+	Again a percentage argument.
+
+NOTE:  The opposite of a greet_prog. Whenver the mobile itself enters a new
+	room, this can be triggered.  Useful for looking around, or waving
+	or other things that real PCs do when they arrive at a crowded room.
+	Only the first successful one of these is done so the mobile doesnt
+	look stupid by repeating commands resulting from multiple MOBprograms.
+
+Syntax:  give_prog <ARGUMENT>
+
+	The argument is either the complete name of an object, or the word
+	'all'. A complete name is like: "sword shiny magic" vs "sword". It
+	is whatever is on the line of the object section following the VNUM.
+
+NOTE:  This is triggered whenever something is given to the mobile.  Best used
+	for quests.  Since the first successful trigger is the only one of
+	this type which is processed, having an "all" argument give_prog
+	at the end of the MOBprogram list is essentially a default response.
+
+Syntax:  bribe_prog <NUMBER>
+
+	The argument is any positive integer number.
+
+NOTE:  This trigger is activated whenever money is given to the mobile. If the
+	amount given exceeds the number, then process the commands. Note
+	again, that an argument of '1' would act as a default response.
+	If money is given to a mobile with this trigger type, instead of the
+	cash being added to mob->gold, the mobile is instead given a pile of
+	coins in the proper amount. In this way, the mobile can drop the coins
+	or refer to the object by "amount" (short description:"%d gold coins")
+	This surely has some drawbacks, but it lets the mobile do something
+	with the bribe (NOTE: dropping it and getting it turns it into cash)
+	This can be done sneakily if a NPC-only "at" command exists.
+
+Syntax:  death_prog <NUMBER>
+
+	The argument is a percent once again.
+
+NOTE:  When the mobile dies, if the random percentage is less than the argument
+	the mobile performs the MOBprogram commands rather than the usual
+	death_cry sequence.  This is done before the corpse is made, so the
+	commands can be considered the mobiles last gasp.  It could perhaps
+	destroy the items it was holding, or create some, or cast a spell
+	on the killer and the room, or even goto a new location and die
+	there (with a text message, the corpse would seem to vanish)  The
+	position of the mobile is set to STANDING, and so it can do all the
+	normal commands, without worrying about being DEAD.  However, even
+	if the mobile restores itself to full hitpoints, it will still die.
+	This is not a way to immortal mobiles. However, the last thing this
+	mobile does could be to goto some vacant room, load a fresh version
+	of itself, drop all its items, force the new mobile to get all the
+	items and wear them, send the new mobile back to the character who
+	killed it and force the new mobile to attack that character. Along
+	with a text message which said the mobile restored itself, this
+	might be a convincing effect. (Note that your kitten could turn into
+	a dragon this way too).  Of course this assumes that some NPC
+	commands have been implemented. 
+
+Note that the first successful bribe_prog, give_prog, hitprcnt_prog,
+death_prog, fight_prog, rand_prog and entry_prog is the only one which
+is executed.  All the successful greet(_all)_progs, speech_progs, and
+act_progs will be done. This is the best arrangement we found for handling
+situations where you imported several MOBprogram files for a mobile.  If you
+are going to write lots of little files and piece them together to create
+the effect you want, it is advisible to not mix things together all that
+much, otherwise you have to pay close attention to the order in which the
+programs are added to the link list.
+
+Also, no MOBprograms will be successful when the mobile is charmed
+(since it has no self violition, it should act like it has none) to protect
+mobiles which are given special powers from being implemented by a player.
+One bug we had in early testing was a player who charmed a mobile and then
+used its aggressive greet_prog to attack other players. 
+
+=== Variables
+
+To make things come alive, variables are needed.  These are represented
+in the MOBprograms by using a dollar sign convention as in the socials.
+When the mud command is processed, these variables are expanded into the
+values shown below.  Usually, it is best to use the short descriptions
+of mobiles and the names of players when speaking them, but if you are
+performing an action to someone almost always you want the name. The
+title field for players is an extra that probably wont often be used.
+Without further hesitation... the variables:
+
+$i	the first of the names of the mobile itself.
+$I	the short description of the mobile itself.
+$n	the name of whomever caused the trigger to happen.
+$N	the name and title of whomever caused the trigger to happen.
+$t	the name of a secondary character target (i.e A smiles at B)
+$T	the short description, or name and title of target (NPC vs PC)
+$r	the name of a random char in the room with the mobile (never == $i)
+$R	the short description, or name and title of the random char
+
+$j	he,she,it based on sex of $i.
+$e	he,she,it based on sex of $n.
+$E	he,she,it based on sex of $t.
+$J	he,she,it based on sex of $r.
+
+$k	him,her,it based on sex of $i.
+$m	him,her,it based on sex of $n.
+$M	him,her,it based on sex of $t.
+$K	him,her,it based on sex of $r.
+
+$l	his,hers,its based on sex of $i.
+$s	his,hers,its based on sex of $n.
+$S	his,hers,its based on sex of $t.
+$L	his,hers,its based on sex of $r.
+
+$o	the first of the names of the primary object (i.e A drops B)
+$O	the short description of the primary object
+$p	the first of the names of the secondary object (i.e A puts B in C)
+$P	the short description of the secondary object
+
+$a	a,an based on first character of $o
+$A	a,an based on first character of $p
+
+Also, in if_checks, the accepted variables are the basic ones
+(i,n,t,r,o,p).  If a variable is referenced that doesnt exist, then the value
+is simply left blank. (i.e referring to $o when the trigger is: A kisses B)
+
+The only problem with the variables is that the secondary object and
+the secondary target are passed by act() in the same location.  This means that
+if you reference $t in an  A puts B in C  situation, the result will probably
+be a happy mud crash or some weird side effect, espescially if $t is used in
+an if_check (i.e. if isnpc($t) in the above situation) The basic fix for this
+is to change everyone who calls the act() procedure to specify a secondary
+object and a secondary character. But that is a fairly comprehensive trivial
+twiddle, so we left it the way it is so that, you arent forced to make all 
+those twiddles to use the MOBprograms.
+
+=== Control Flow Syntax
+
+In place of any legal mud command in a MOBprogram, one can substitute a
+flow of control command. Here is the syntax for a flow of control command.
+
+"if" " " {if_check_1} "(" {argument} ")" [ {operator} {value} ] NL
+[ "or" " " {if_check_2} "(" {argument} ")" [ {operator} {value} ] NL ]
+                        .           .           .
+[ "or" " " {if_check_N} "(" {argument} ")" [ {operator} {value} ] NL ]
+
+	[ {program_command_1} NL ]
+	[ {program_command_2} NL ]
+	      .   .   .
+	[ "break" NL ]
+	      .   .   .
+	[ {program_command_N} NL ]
+
+[ "else" NL ]
+
+	[ {program_command_1} NL ]
+	[ {program_command_2} NL ]
+	      .   .   .
+	[ "break" NL ]
+	      .   .   .
+	[ {program_command_N} NL ]
+
+"endif" NL
+
+	Basically, it is: an 'if' line, followed by zero or more 'or' lines,
+followed by zero or more legal mud commands, which may contain a 'break' line,
+possibly followed by an 'else' line , followed by zero or more legal mud
+commands, which may contain a 'break' line, followed by an 'endif' line.
+
+The only new syntax labels are all in the IF line:
+
+--Explanations
+
+An IF_CHECK is a string which describes under what context to compare things.
+The ARGUMENT is the reference point from which the LHS of an expression comes.
+The OPERATOR indicates how the LHS and RHS are going to be compared.
+The VALUE is the RHS of the expression to be compared by the operator.
+
+The BREAK command bails out of the entire MOBprogram regardless of the
+level if nesting.
+
+If that looks confusing, skip to the end of the document and review the
+Example. Hopefully that should clear things, otherwise you'll probably have
+to give us a mail since examples are the best way we know to explain syntax.
+
+=== Operators
+
+Most of the basic numeric operators are legal and perform the same
+function as in C. The string operators are a bit more confusing. There are
+negative versions of some of the operators. These are not strictly needed,
+since the if/else construct of Control Flow commands can handle either case.
+
+Numeric Operators: == != > < >= <= & |     String Operators: == != / !/
+
+For strings, == and != check for exact match between the two strings
+and the other two, / and !/ check to see if the second string is contained in
+the first one.  This is so things like:  if name($n) / guard  will respond
+true to "cityguard" "guard" "guardian"  etc. Using == on a name implies
+that you are matching the complete name "cityguard guard" or whatever.
+The string operators are case SENSITIVE.
+
+
+=== If_Checks In Control Flow
+
+The provided list of if_checks and their arguments are below.  They
+should all be fairly obvious in what they do, but some of the more obtuse
+deserve a slight explanation. Any '==' operator can be replaced with any of the
+available ones described above.  The argument ($*) refers to any of the
+variables which make sense for that if_check (i.e. for an if_check which is
+referencing a person the only valid variables would be $i, $n, $t or $r)
+A value type of string is a sequence of characters. It does not need to be
+included in quotes or anything like that (i.e. name($n)== orc large brown)
+
+rand     (num)			Is random percentage less than or equal to num
+isnpc     ($*)			Is $* an NPC
+ispc      ($*)			Is $* a PC
+isgood    ($*)			Does $* have a good alignment 
+isfight   ($*)			Is $* fighting
+isimmort  ($*)			Is the level of $* greater than max_mortal
+ischarmed ($*)			Is $* affected by charm
+isfollow  ($*)			Is $* a follower with their master in the room
+isaffected($*)	& integer	Is ($*->affected_by & integer) true
+				(person only) 
+hitprcnt  ($*)	== percent	Is the hit/max_hit of $* equal to percent
+inroom	  ($*)	== integer	Is the room of $* equal to integer
+				(person only)
+sex	  ($*)	== integer	Is the sex of $* equal to integer
+position  ($*)	== integer	Is the position of $* equal to integer
+level	  ($*)	== integer	Is the level of $* equal to integer
+class	  ($*)	== integer	Is the class of $* equal to integer
+goldamt	  ($*)	== integer	Does $* have a gold total equal to integer
+objtype	  ($*)	== integer	Is the type of $* equal to integer
+				(armor,boat,etc)
+objval#	  ($*)	== integer	Is $*->value[#] equal to integer (# from 0-3)
+number	  ($*)	== integer	Is the vnum of $* equal to integer
+name	  ($*)	== string	Is the name of $* equal to string
+
+
+=== MOBCommands Of Interest
+
+These are fairly basic things, most of them are wiz commands which have
+been changed to allow for mobiles to perform the commands.  If you have the
+problem of immortals abusing these powers on your mud either ditch the
+immortals, or add a check in all of them to only let NPC's with null
+descriptors do the commands.  (However, you lose a little debugging help that
+way).  MERC 2.2 has provided a little security feature against this but
+it is by no means comprehensive.  Please check yourself if you are concerned.
+
+Here are the basic MOBcommands that we found to be enticing:
+
+Syntax:  MPSTAT <mobile>
+
+	Shows the MOBprograms which are set on the mob of the given name or
+	vnum and some basic stats for the mobile
+
+Syntax:  MPASOUND <text_string>
+
+	Prints the text string to the rooms around the mobile in the same
+	manner as a death cry. This is really useful for powerful aggressives
+	and is also nice for wandering minstrels or mobiles like that in
+	concept.
+
+Syntax:  MPJUNK <object>
+
+	Destroys the object refered to in the mobiles inven. It prints no
+	message to the world and you can do things like junk all.bread or
+	junk all. This is nice for having janitor mobiles clean out their
+	inventory if they are carrying too much (have a MOBprogram trigger on
+	the 'full inventory')
+
+Syntax:  MPECHO                 <text_string>
+	 MPECHOAT      <victim> <text_string>
+	 MPECHOAROUND  <victim> <text_string>
+
+	Prints the text message to the room of the mobile. The three options
+	let you tailor the message to goto victims or to do things sneaky
+	like having a merchant do: mpat guard mpechoat guard rescue_please 
+	This coupled with a guard act_prog trigger on rescue_please to
+	mpgoto $n and mpecho $I has arrived.  It is an affective way of quickly
+	bringing guards to the scene of an attack.
+
+Syntax:  MPMLOAD <vnum>
+	 MPOLOAD <vnum> <level>
+
+	Loads the obj/mobile into the inven/room of the mobile. Even if the
+	item is non-takable, the mobile will receive it in the inventory.
+	This lets a mobile distribute a quest item or load a key or something.
+
+Syntax:  MPKILL <victim>
+
+	Lets a mobile kill a player without having to murder and be fifth
+	level.  Lots of MOBprograms end up with mpkill $n commands floating
+	around. It works on both mobiles and players.
+
+Syntax:  MPPURGE [argument]
+
+	Destroys the argument from the room of the mobile. Without an argument
+	the result is the cleansing of all NPC's and items from the room with
+	the exception of the mobile itself.  However, mppurge $i will indeed
+	purge the mobile, but it MUST be the last command the mobile tries to
+	do, otherwise the mud cant reference the acting mobile trying to do the
+	commands and bad things happen.  
+
+Syntax:  MPGOTO <dest>
+
+	Moves the mobile to the room or mobile or object requested.  It makes
+	no message of its departure or of its entrance, so these must be
+	supplied with mpecho commands if they are desired.
+
+Syntax:  MPAT <dest> <command>
+
+	Perfoms the command at the designated location. Very useful for doing
+	magic slight of hand tricks that leave players dumbfounded.. such as
+	metamorphing mobiles, or guard summoning, or corpse vanishing.
+
+Syntax:  MPTRANSFER <victim> [dest]
+
+	Sends the victim to the destination or to the room of the mobile as a
+	default.  if the victim is "all" then all the characters in the room
+	of the mobile are transfered to the destination.  Good for starting
+	quests or things like that.  There is no message given to the player
+	that it has been transfered and the player doesnt do a look at the
+	new room unless the mob forces them to. Immortals cannot be tranfered.
+
+Syntax:  MPFORCE <victim> <command>
+
+	Forces the victim to do the designated command.  The victim is not told
+	that they are forced, they just do the command so usually some mpecho
+	message is nice.  You can force players to remove belongings and give
+	them to you, etc.  The player sees the normal command messages (such as
+	removing the item and giving it away in the above example)  Again, if
+	the victim is "all" then everyone in the mobiles room does the command.
+	This cannot be used on immortals.
+
+
+=== Regarding CPU Slowdown
+
+We have no real idea how slow this makes a mud. However, you will find
+that if you are judicious with your use of MOBprograms, you can either do
+little damage, or even reduce the effort on your server!  This means that
+mobile polling (including the rand_progs) need only be checked when players
+are around. This reduces computation of random_stuff a little, but it is
+still a polling method, and subject to a basic inefficiency there. However,
+aside from the rand_progs, the only additional slowdowns will be when the
+mobile is responding to the situation, and you would get that from a special
+procedure as well (although MOBprograms are surely not as efficient as
+compiled C code)
+
+For those who are afraid that MOBprograms will drown their CPU, here is a
+brazen suggestion which could put you a bit more at ease.  Instead of having
+aggressive mobiles, try the following MOBprogram block on all would be
+aggressives. 
+
+			>greet_prog 100~
+			if ispc($n)
+			  if isimmort($n)
+			    bow $n
+			  else
+			    mkill $n
+			  endif
+			endif
+			~
+
+This has the effect of making the mobile attack the FIRST visable
+mortal player who walks into the room. [Merc 2.0 has a random char be the
+victim, so we allow our fighting mobiles a high chance to switch their target
+to any random player in the opposing group at each pulse_violence.]
+
+What this has allowed us to do, is to comment out the aggr_update
+section of the code and thus reduce our computation by a bunch. There is no
+continuous polling through all the mobiles in occupied zones and checking to
+see if there is an NPC aggressor and a PC victim. We also dont have to worry
+about players skipping through aggressives, since the trigger catches folk as
+soon as they enter the room.
+
+Note that the price we paid for this, was that if a second player
+walked in during the combat, and the first character flees, the mobile didnt
+realize that there is a new target. So, we compromised by adding a rand_prog
+which had the mobile appear to peer around the room and then do an mkill $r.
+AHA! you say, we are back to polling. Well true, but since mobile_update
+is called anyway (at 1/16 the frequency of aggr_update in default Merc 2.0)
+and we only add an if check, a walk of a short link_list and the MOBprogram
+execution itself, we have still reduced the aggr_update stuff by major amounts.
+
+Of course the act_prog updates are currently done in the aggr_update
+section but if you decrease the mobile_update time a bit, and move the
+act_progs over to there, the result is act_progs which have a brief delay
+(like a PC who has to type things over a modem does) 
+
+=== Miscellaneous Information
+
+There is really no limit to the number of MOBprograms a given mobile
+can have. However, the length of a single command block is limited by the
+value of MAX_STRING_LENGTH.  In my version it was around 4k, so that is
+probably about 100 lines.  The indentation spaces shown in the example
+above are NOT required, but do make it easier to read (and debug)  
+
+The MOBprogram stuff runs totally without anything in the
+mob_commands.c file, but letting mobiles be a bit more godlike has allowed
+us to do what we consider to be wonderful things. The replicant and
+polymorphing mobiles described above as well as some nifty mob helping mob
+interactions are an example.
+
+It IS possible to accidentally make mobiles which can trigger in
+loops. As mentioned in the example at the end of this document, the result is
+usually a mud crash or major CPU dent.  We dont know any way to prevent this
+from happening, other than careful coding and a restriction of mobile travel
+from zones of one creator to another (another good reason to not have charmed
+mobiles do anything).  Tracking down the culprit mobile is not always easy.
+The only thing we have found which always works, is to add a log statement
+into the MOBprogram driver and fill some disk space until it becomes apparent
+what commands are repetitively issued. Also, most infinite loops are flukes
+where the situation just happens to be right and usually it never happens
+again.
+
+The list of variables and triggers and if_checks will grow
+continuously as our creators demand the ability to do certain things.  If you
+have a request or if you have a new one, we don't mind hearing about them,
+and if you find bugs, we shall gladly attempt to squash them for you. As
+additions or fixes are made, the code will occasionally be redistributed.
+However, if you want a current version, please feel free to ask. When the
+code is redistributed, a file containing the change history from the original
+release will be provided (when possible) to allow you to patch in the changes
+with low grief.
+
+The code has been written for a Merc 2.0 release mud. We were
+considering trying to port it back to 1.0, but this really had no gain for us.
+Also, much of the internal mud structure has changed and makes this almost a
+hopeless task.  We will be glad to lend advice to someone who is trying to
+install this for 1.0 and if something develops we will be glad to make that
+public as well.
+
+=== Adding Triggers
+
+All you have to do is to follow these simple steps...
+
+1.  Add the appropriate global prototypes
+2.  Add the appropriate #define XXXXX_PROG
+3.  Write a trigger procedure
+4.  Add the new case in *mprog_type_to_name(...) 
+5.  Add a new if statement in mprog_name_to_type(..) 
+
+There you have it, a new trigger for your MOBProgram system.
+
+=== Credits
+
+The reason this code was written was to enhance the playing
+experience at ThePrincedom (a Merc 2.0 based world scheduled to open in
+October 1993)
+
+The original idea for this type of MOBprogram came from playing on:
+WORLDS of CARNAGE, a dikumud implemented by Robbie Roberts and Aaron Buhr.
+Aaron (known as Dimwit Flathead the First) was the original author from what
+I have been told, and I hope he will not be totally offended and angered
+by my coding and sharing a mimicked version with the world. This version
+is probably not as good as the original and I do feel remorse for publishing
+the idea. However, since Carnage has been down for months without a word of
+information regarding its return, I am glad to let one of the best features
+live on in future generations of MUDs.
+
+There are no objections to this code being shared, since, aside from
+a nuclear destruction of all the Temples of Midgaard (excepting the original
+one!!), bland mobiles are the greatest bane of Dikumuds today. It would be
+nice to get a message saying you are using the code just for our references.
+We shant answer questions from anyone until told where they are using the
+code. *grin*  Since this code is not copyrighted, you of course dont have to
+do anything we say, but it would be nice of you to put the mobprog help
+screen into your database. and have mobinfo show up somewhere on a more
+visable help screen (possibly tagged onto the bottom of credits as a see
+also...)
+
+I acknowledge all the work done by the original Diku authors as well as
+those at Merc Industries and appreciate their willingness to share code.
+Also, quick thanks to Wraith for doing a little beta-installation testing.
+
+N'Atas-Ha                                                       June, 1993
+natasha@gs118.sp.cs.cmu.edu
+
+In addition to this DOC file credit section, I'd like to add
+a thank you to Yaz, Mahatma, Zelda, and the rest of the 4th Realm crew for
+extensively testing MOBProgram 2.1 for me.  You may see MOBPrograms in
+action as well as their own "flavor" of mud at marble.bu.edu 4000.
+
+Kahn								Oct 28th, 1993
+MERC Industries
+
+{+}+{+}+{+}+{+}+{+}+{+}+{+}+{+}+{+}+{+}+{+}+{+}+{+}+{+}+{+}+{+}+{+}+{+}+{+}+{+}
+
+===================CUT HERE FOR QUICK REFERENCE SHEET========================
+
+    MOBprogram quick reference to triggers/variables/ifchecks/mobcommands
+
+trigger         argument and what must happen to activate trigger
+-----------------------------------------------------------------------------
+act_prog        WORDLIST or P WORD_PHRASE to match from act() to mobile
+bribe_prog      INTEGER amount of miminum gold amount given to mobile
+entry_prog      PERCENT chance to check when mobile moves to a new room
+give_prog       FULL OBJECT NAME or ALL to match when obj given to mobile
+greet_prog      PERCENT chance to check if visable char enters mobile's room
+all_greet_prog  PERCENT chance to check when any char enters mobile's room
+fight_prog      PERCENT chance to check at fight_pulse if mobile is fighting
+hitprcnt_prog   PERCENT lower than mobiles hit/max_hit if mobile is fighting
+death_prog      PERCENT chance to check after mobile has been slain
+rand_prog       PERCENT chance to check whenever a PC is in the mobiles zone
+speech_prog     WORDLIST or P WORD_PHRASE to match in dialogue to mobile
+
+variable         mobile actor victim random     object 2nd_object
+-----------------------------------------------------------------------------
+  name             $i    $n     $t     $r         $o       $p      
+shrt_desc/title    $I    $N     $T     $R         $O       $P          
+he/she/it          $j    $e     $E     $J         --       --    '$'symbol=$$
+him/her/it         $l    $m     $M     $L         --       --          
+his/hers/its       $k    $s     $S     $K         --       --
+a/an               --    --     --     --         $a       $A
+ 
+ifcheck       argument?        meaning
+-----------------------------------------------------------------------------
+rand(num)                   Is a random percentage less than or equal to num
+isnpc($*)                   Is $* an NPC
+ispc($*)                    Is $* a PC
+isgood($*)                  Does $* have a good alignment 
+isfight($*)                 Is $* fighting
+isimmort($*)                Is the level of $* greater than max_mortal
+ischarmed($*)               Is $* affected by charm
+isfollow($*)                Is $* a follower with their master in the room
+isaffected($*) & integer    Is ($*->affected_by & integer) true (person only) 
+hitprcnt($*)  == percent    Is the hit/max_hit of $* equal to percent
+inroom($*)    == integer    Is the room of $* equal to integer (person only)
+sex($*)       == integer    Is the sex of $* equal to integer
+position($*)  == integer    Is the position of $* equal to integer
+level($*)     == integer    Is the level of $* equal to integer
+class($*)     == integer    Is the class of $* equal to integer
+goldamt($*)   == integer    Does $* have a gold total equal to integer
+objtype($*)   == integer    Is the type of $* equal to integer (armor,boat,etc)
+objval#($*)   == integer    Is $*->value[#] equal to integer (# from 0-3)
+number($*)    == integer    Is the vnum of $* equal to integer
+name($*)      == string     Is the name of $* equal to string
+
+MOBcommand	argument_list		MOBcommand	argument_list
+-----------------------------------------------------------------------------
+MPSTAT		<mobile>		MPASOUND	<text_string>
+MPJUNK		<object>		MPECHO		<text_string>
+MPMLOAD		<mobile>		MPECHOAT	<victim> <text_string>
+MPOLOAD		<object> <level>	MPECHOAROUND	<victim> <text_string>
+MPKILL		<victim>		MPPURGE		[argument]
+MPGOTO		<dest>			MPAT		<dest> <command> 
+MPTRANSFER	<dest> [location]	MPFORCE		<victim> <command>
+
+======================END OF QUICK REFERENCE SHEET===========================
+
+++++++++++++++++++++++++++++++++EXAMPLE++++++++++++++++++++++++++++++++++++++
+
+Referenced from above in the Control Flow section
+
+>act_prog p pokes you in the~
+if isnpc($n)
+   chuckle
+   poke $n
+else
+   if level($n) <= 5
+   or isgood($n)
+      tell $n I would rather you didnt poke me.
+   else
+      if level($n)>15
+         scream
+         say Ya know $n. I hate being poked!!!
+         kill $n
+         break
+      endif
+      slap $n
+      shout MOMMY!!! $N is poking me.
+   endif
+endif
+~
+
+Ok.. time to translate.. the trigger will only happen when the mobile
+gets the message "... pokes you in the ..." If the offender (recall
+the $n and $N refer to the char who did the poking...) is an NPC, then
+the mobile merely chuckles and pokes back. If the offender was a PC
+then good and low level characters get a warning, high level chars
+get attacked, and midlevel chars get slapped and whined at.
+
+Note that two of these mobiles could easily get into an infinite poke
+war which slows down (or frequently crashes) the mud just a bit :( 
+Be very careful about things like that if you can. (i.e dont respond 
+to a poke with a poke, and try not to let heavily programmed robot mobiles
+wander around together. More on that is given above.)
+
+Also, it is clear that the 'order' command could get confused with the 'or'
+control flow. However, this is only the case when 'order' is abbreviated to
+its two letter form, and placed immediately following an 'if' line. Thus,
+if you want to be that malicious in trying to break the MOBprogram code,
+noone is going to stand in your way (However, the result of this would be
+a bug message and a bail out from the ifcheck so things dont really break)
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+===========================================================================

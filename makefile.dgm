@@ -1,0 +1,101 @@
+#
+# Murk++ build for digital mars c/c++
+#
+CPP = dmc
+CC = dmc
+LD = link
+AR = lib
+WINZIP = C:\apps\Winzip\wzzip
+
+MSGS= -w2 -w7
+DEFS = -DWIN32 -DWIN32_LEAN_AND_MEAN -DSQLITE_THREADSAFE=0
+OPTIM = -o -5 -Ae
+CFLAGS= $(OPTIM) $(MSGS) $(DEFS)
+
+# Need DMC STLport version too.
+INCS = -Isqlite3 -IC:\devtools\dm\stlport\stlport
+LIBS   = wsock32.lib
+LFLAGS = 
+
+SQLITE_SRC = sqlite3\sqlite3.c 
+SQLITE_OBJ = sqlite3\sqlite3.obj 
+SQLITE_LIB = sqlite3\sqlite3.lib
+
+SQLITE_PRG_SRC = sqlite3\shell.c 
+SQLITE_PRG_OBJ = sqlite3\shell.obj
+SQLITE_PRG = sqlite3\sqlite3.exe 
+
+SQLITE_XTRA = sqlite3\sqlite3.h sqlite3\sqlite3ext.h 
+
+MURK_UTIL_SRC = loadhelps.cpp
+MURK_UTIL_OBJ = loadhelps.obj             
+MURK_SRC = murk.cpp os.cpp descriptor.cpp utils.cpp commands.cpp io.cpp \
+	room.cpp object.cpp character.cpp spells.cpp objproto.cpp mobproto.cpp \
+	affect.cpp exit.cpp area.cpp reset.cpp extra.cpp shop.cpp pcdata.cpp \
+	symbols.cpp database.cpp world.cpp
+MURK_OBJ = murk.obj os.obj descriptor.obj utils.obj commands.obj io.obj \
+	room.obj object.obj character.obj spells.obj objproto.obj mobproto.obj \
+	affect.obj exit.obj area.obj reset.obj extra.obj shop.obj pcdata.obj \
+	symbols.obj database.obj world.obj
+MURK_HDR = os.hpp config.hpp descriptor.hpp character.hpp pcdata.hpp utils.hpp \
+	globals.hpp object.hpp note.hpp room.hpp area.hpp mobproto.hpp \
+	objproto.hpp affect.hpp exit.hpp extra.hpp ban.hpp shop.hpp reset.hpp \
+	io.hpp symbols.hpp database.hpp spell_list.hpp cmd_list.hpp \
+	baseobject.hpp world.hpp
+
+# Data files Areas, Mobprogs and Players
+DATAFILES = area.lst limbo.are mid_cit.prg midgaard.are school.are help.are \
+        vagabond.prg beggar.prg crier.prg drunk.prg gategrd.prg gategrd2.prg \
+	janitor.prg One schema item_types socials titles
+
+# Files in the standard distribution
+DISTFILES = $(MURK_SRC) $(MURK_UTIL_SRC) $(MURK_HDR) $(DATAFILES) \
+	$(SQLITE_SRC) $(SQLITE_PRG_SRC) $(SQLITE_XTRA) \
+	makefile makefile.bor makefile.vc makefile.dgm \
+	doc.txt startup startup.bash startup.cmd \
+	license.crypt license.diku license.merc license.murk++ 
+  
+#!ifndef RELEASE
+#RELEASE=dist
+#!endif
+
+TARGETS = $(SQLITE_LIB) $(SQLITE_PRG) murk.exe loadhelps.exe
+
+all: $(TARGETS)
+
+$(SQLITE_LIB): $(SQLITE_OBJ)
+	-@del $< 2>NUL
+	$(AR) -c $@ $**
+
+$(SQLITE_PRG): $(SQLITE_PRG_OBJ) $(SQLITE_LIB)
+	$(LD) $(LFLAGS) $**, $@,, $(LIBS)
+
+murk.exe: $(MURK_OBJ) $(SQLITE_LIB)
+	@-del murkold.exe 
+	@-ren murk.exe murkold.exe 
+	$(LD) $(LFLAGS) $**, $@,, $(LIBS)
+
+loadhelps.exe: $(MURK_UTIL_OBJ) io.obj $(SQLITE_LIB) 
+	$(LD) $(LFLAGS) $**, $@,, $(LIBS) 
+
+database: $(SQLITE_PRG) loadhelps.exe
+	@echo "Building database..."
+	@-copy murk.db murk.db.bkup
+	@-del murk.db
+	@sqlite3\sqlite3 murk.db < schema
+	@loadhelps
+	@echo "Done."
+
+clean:
+	@-del *.map murk.exe loadhelps.exe $(MURK_OBJ) \
+	$(MURK_UTIL_OBJ) 2>NUL
+	
+cleanall:
+	@-del *.map $(TARGETS) $(MURK_OBJ) $(SQLITE_OBJ) \
+	$(SQLITE_PRG_OBJ) $(MURK_UTIL_OBJ) 2>NUL
+	
+.c.obj:
+	$(CC) $(CFLAGS) $(INCS) -c -o$@ $<
+
+.cpp.obj:
+	$(CC) $(CFLAGS) $(INCS) -c -o$@ $<

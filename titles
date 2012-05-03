@@ -1,0 +1,328 @@
+0|0|0|Man
+0|0|1|Woman
+0|1|0|Apprentice of Magic
+0|1|1|Apprentice of Magic
+0|2|0|Spell Student
+0|2|1|Spell Student
+0|3|0|Scholar of Magic
+0|3|1|Scholar of Magic
+0|4|0|Delver in Spells
+0|4|1|Delveress in Spells
+0|5|0|Medium of Magic
+0|5|1|Medium of Magic
+0|6|0|Scribe of Magic
+0|6|1|Scribess of Magic
+0|7|0|Seer
+0|7|1|Seeress
+0|8|0|Sage
+0|8|1|Sage
+0|9|0|Illusionist
+0|9|1|Illusionist
+0|10|0|Abjurer
+0|10|1|Abjuress
+0|11|0|Invoker
+0|11|1|Invoker
+0|12|0|Enchanter
+0|12|1|Enchantress
+0|13|0|Conjurer
+0|13|1|Conjuress
+0|14|0|Magician
+0|14|1|Witch
+0|15|0|Creator
+0|15|1|Creator
+0|16|0|Savant
+0|16|1|Savant
+0|17|0|Magus
+0|17|1|Craftess
+0|18|0|Wizard
+0|18|1|Wizard
+0|19|0|Warlock
+0|19|1|War Witch
+0|20|0|Sorcerer
+0|20|1|Sorceress
+0|21|0|Elder Sorcerer
+0|21|1|Elder Sorceress
+0|22|0|Grand Sorcerer
+0|22|1|Grand Sorceress
+0|23|0|Great Sorcerer
+0|23|1|Great Sorceress
+0|24|0|Golem Maker
+0|24|1|Golem Maker
+0|25|0|Greater Golem Maker
+0|25|1|Greater Golem Maker
+0|26|0|Maker of Stones
+0|26|1|Maker of Stones
+0|27|0|Maker of Potions
+0|27|1|Maker of Potions
+0|28|0|Maker of Scrolls
+0|28|1|Maker of Scrolls
+0|29|0|Maker of Wands
+0|29|1|Maker of Wands
+0|30|0|Maker of Staves
+0|30|1|Maker of Staves
+0|31|0|Demon Summoner
+0|31|1|Demon Summoner
+0|32|0|Greater Demon Summoner
+0|32|1|Greater Demon Summoner
+0|33|0|Dragon Charmer
+0|33|1|Dragon Charmer
+0|34|0|Greater Dragon Charmer
+0|34|1|Greater Dragon Charmer
+0|35|0|Master of all Magic
+0|35|1|Master of all Magic
+0|36|0|Mage Hero
+0|36|1|Mage Heroine
+0|37|0|Angel of Magic
+0|37|1|Angel of Magic
+0|38|0|Deity of Magic
+0|38|1|Deity of Magic
+0|39|0|Supremity of Magic
+0|39|1|Supremity of Magic
+0|40|0|Implementor
+0|40|1|Implementress
+1|0|0|Man
+1|0|1|Woman
+1|1|0|Believer
+1|1|1|Believer
+1|2|0|Attendant
+1|2|1|Attendant
+1|3|0|Acolyte
+1|3|1|Acolyte
+1|4|0|Novice
+1|4|1|Novice
+1|5|0|Missionary
+1|5|1|Missionary
+1|6|0|Adept
+1|6|1|Adept
+1|7|0|Deacon
+1|7|1|Deaconess
+1|8|0|Vicar
+1|8|1|Vicaress
+1|9|0|Priest
+1|9|1|Priestess
+1|10|0|Minister
+1|10|1|Lady Minister
+1|11|0|Canon
+1|11|1|Canon
+1|12|0|Levite
+1|12|1|Levitess
+1|13|0|Curate
+1|13|1|Curess
+1|14|0|Monk
+1|14|1|Nun
+1|15|0|Healer
+1|15|1|Healess
+1|16|0|Chaplain
+1|16|1|Chaplain
+1|17|0|Expositor
+1|17|1|Expositress
+1|18|0|Bishop
+1|18|1|Bishop
+1|19|0|Arch Bishop
+1|19|1|Arch Lady of the Church
+1|20|0|Patriarch
+1|20|1|Matriarch
+1|21|0|Elder Patriarch
+1|21|1|Elder Matriarch
+1|22|0|Grand Patriarch
+1|22|1|Grand Matriarch
+1|23|0|Great Patriarch
+1|23|1|Great Matriarch
+1|24|0|Demon Killer
+1|24|1|Demon Killer
+1|25|0|Greater Demon Killer
+1|25|1|Greater Demon Killer
+1|26|0|Cardinal of the Sea
+1|26|1|Cardinal of the Sea
+1|27|0|Cardinal of the Earth
+1|27|1|Cardinal of the Earth
+1|28|0|Cardinal of the Air
+1|28|1|Cardinal of the Air
+1|29|0|Cardinal of the Ether
+1|29|1|Cardinal of the Ether
+1|30|0|Cardinal of the Heavens
+1|30|1|Cardinal of the Heavens
+1|31|0|Avatar of an Immortal
+1|31|1|Avatar of an Immortal
+1|32|0|Avatar of a Deity
+1|32|1|Avatar of a Deity
+1|33|0|Avatar of a Supremity
+1|33|1|Avatar of a Supremity
+1|34|0|Avatar of an Implementor
+1|34|1|Avatar of an Implementor
+1|35|0|Master of all Divinity
+1|35|1|Mistress of all Divinity
+1|36|0|Holy Hero
+1|36|1|Holy Heroine
+1|37|0|Angel
+1|37|1|Angel
+1|38|0|Deity
+1|38|1|Deity
+1|39|0|Supreme Master
+1|39|1|Supreme Mistress
+1|40|0|Implementor
+1|40|1|Implementress
+2|0|0|Man
+2|0|1|Woman
+2|1|0|Pilferer
+2|1|1|Pilferess
+2|2|0|Footpad
+2|2|1|Footpad
+2|3|0|Filcher
+2|3|1|Filcheress
+2|4|0|Pick-Pocket
+2|4|1|Pick-Pocket
+2|5|0|Sneak
+2|5|1|Sneak
+2|6|0|Pincher
+2|6|1|Pincheress
+2|7|0|Cut-Purse
+2|7|1|Cut-Purse
+2|8|0|Snatcher
+2|8|1|Snatcheress
+2|9|0|Sharper
+2|9|1|Sharpress
+2|10|0|Rogue
+2|10|1|Rogue
+2|11|0|Robber
+2|11|1|Robber
+2|12|0|Magsman
+2|12|1|Magswoman
+2|13|0|Highwayman
+2|13|1|Highwaywoman
+2|14|0|Burglar
+2|14|1|Burglaress
+2|15|0|Thief
+2|15|1|Thief
+2|16|0|Knifer
+2|16|1|Knifer
+2|17|0|Quick-Blade
+2|17|1|Quick-Blade
+2|18|0|Killer
+2|18|1|Murderess
+2|19|0|Brigand
+2|19|1|Brigand
+2|20|0|Cut-Throat
+2|20|1|Cut-Throat
+2|21|0|Spy
+2|21|1|Spy
+2|22|0|Grand Spy
+2|22|1|Grand Spy
+2|23|0|Master Spy
+2|23|1|Master Spy
+2|24|0|Assassin
+2|24|1|Assassin
+2|25|0|Greater Assassin
+2|25|1|Greater Assassin
+2|26|0|Master of Vision
+2|26|1|Mistress of Vision
+2|27|0|Master of Hearing
+2|27|1|Mistress of Hearing
+2|28|0|Master of Smell
+2|28|1|Mistress of Smell
+2|29|0|Master of Taste
+2|29|1|Mistress of Taste
+2|30|0|Master of Touch
+2|30|1|Mistress of Touch
+2|31|0|Crime Lord
+2|31|1|Crime Mistress
+2|32|0|Infamous Crime Lord
+2|32|1|Infamous Crime Mistress
+2|33|0|Greater Crime Lord
+2|33|1|Greater Crime Mistress
+2|34|0|Master Crime Lord
+2|34|1|Master Crime Mistress
+2|35|0|Godfather
+2|35|1|Godmother
+2|36|0|Assassin Hero
+2|36|1|Assassin Heroine
+2|37|0|Angel of Death
+2|37|1|Angel of Death
+2|38|0|Deity of Assassins
+2|38|1|Deity of Assassins
+2|39|0|Supreme Master
+2|39|1|Supreme Mistress
+2|40|0|Implementor
+2|40|1|Implementress
+3|0|0|Man
+3|0|1|Woman
+3|1|0|Swordpupil
+3|1|1|Swordpupil
+3|2|0|Recruit
+3|2|1|Recruit
+3|3|0|Sentry
+3|3|1|Sentress
+3|4|0|Fighter
+3|4|1|Fighter
+3|5|0|Soldier
+3|5|1|Soldier
+3|6|0|Warrior
+3|6|1|Warrior
+3|7|0|Veteran
+3|7|1|Veteran
+3|8|0|Swordsman
+3|8|1|Swordswoman
+3|9|0|Fencer
+3|9|1|Fenceress
+3|10|0|Combatant
+3|10|1|Combatess
+3|11|0|Hero
+3|11|1|Heroine
+3|12|0|Myrmidon
+3|12|1|Myrmidon
+3|13|0|Swashbuckler
+3|13|1|Swashbuckleress
+3|14|0|Mercenary
+3|14|1|Mercenaress
+3|15|0|Swordmaster
+3|15|1|Swordmistress
+3|16|0|Lieutenant
+3|16|1|Lieutenant
+3|17|0|Champion
+3|17|1|Lady Champion
+3|18|0|Dragoon
+3|18|1|Lady Dragoon
+3|19|0|Cavalier
+3|19|1|Lady Cavalier
+3|20|0|Knight
+3|20|1|Lady Knight
+3|21|0|Grand Knight
+3|21|1|Grand Knight
+3|22|0|Master Knight
+3|22|1|Master Knight
+3|23|0|Paladin
+3|23|1|Paladin
+3|24|0|Grand Paladin
+3|24|1|Grand Paladin
+3|25|0|Demon Slayer
+3|25|1|Demon Slayer
+3|26|0|Greater Demon Slayer
+3|26|1|Greater Demon Slayer
+3|27|0|Dragon Slayer
+3|27|1|Dragon Slayer
+3|28|0|Greater Dragon Slayer
+3|28|1|Greater Dragon Slayer
+3|29|0|Underlord
+3|29|1|Underlord
+3|30|0|Overlord
+3|30|1|Overlord
+3|31|0|Baron of Thunder
+3|31|1|Baroness of Thunder
+3|32|0|Baron of Storms
+3|32|1|Baroness of Storms
+3|33|0|Baron of Tornadoes
+3|33|1|Baroness of Tornadoes
+3|34|0|Baron of Hurricanes
+3|34|1|Baroness of Hurricanes
+3|35|0|Baron of Meteors
+3|35|1|Baroness of Meteors
+3|36|0|Knight Hero
+3|36|1|Knight Heroine
+3|37|0|Angel of War
+3|37|1|Angel of War
+3|38|0|Deity of War
+3|38|1|Deity of War
+3|39|0|Supreme Master of War
+3|39|1|Supreme Mistress of War
+3|40|0|Implementor
+3|40|1|Implementress

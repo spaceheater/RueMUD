@@ -1,0 +1,138 @@
+CREATE TABLE item_types (
+  symbol TEXT PRIMARY KEY,
+  value  INTEGER
+);
+
+CREATE INDEX item_types_idx1 ON item_types (value); 
+
+.import item_types item_types
+
+CREATE TABLE socials (
+  name TEXT PRIMARY KEY,
+  char_no_arg TEXT,
+  others_no_arg TEXT,
+  char_found TEXT,
+  others_found TEXT,
+  vict_found TEXT,
+  char_auto TEXT,
+  others_auto TEXT
+);
+
+.import socials socials
+
+CREATE TABLE titles (
+  class INTEGER,
+  level INTEGER,
+  sex INTEGER,
+  title TEXT
+);
+
+.import titles titles
+
+CREATE TABLE helps (
+  level INTEGER,
+  keyword INTEGER,
+  text TEXT
+);
+
+CREATE TABLE areas (
+  id   INTEGER PRIMARY KEY,
+  name TEXT
+);
+
+CREATE TABLE mobiles (
+  id          INTEGER PRIMARY KEY,
+  name        TEXT,
+  short_descr TEXT,
+  description TEXT,
+  vnum        INTEGER,
+  long_descr  TEXT
+  actflags    INTEGER,
+  affected_by INTEGER,
+  alignment   INTEGER,
+  level       INTEGER,
+  sex         INTEGER,
+  area_id     INTEGER
+);
+
+CREATE TABLE objects (
+  id          INTEGER PRIMARY KEY,
+  name        TEXT,
+  short_descr TEXT,
+  description TEXT,
+  vnum        INTEGER,
+  item_type   INTEGER,
+  wear_flags  INTEGER,
+  extra_flags INTEGER,
+  value1      TEXT,
+  value2      TEXT,
+  value3      TEXT,
+  value4      TEXT,
+  weight      INTEGER,
+  cost        INTEGER,
+  area_id     INTEGER
+);
+
+CREATE TABLE rooms (
+  id          INTEGER PRIMARY KEY,
+  name        TEXT,
+  short_descr TEXT,
+  description TEXT,
+  vnum        INTEGER,
+  room_flags  INTEGER,
+  light       INTEGER,
+  sector_type INTEGER,
+  area_id     INTEGER
+);
+
+CREATE TABLE extra_descriptions (
+  id          INTEGER PRIMARY KEY,
+  keyword     TEXT,
+  description TEXT,
+  eid         INTEGER
+);
+
+CREATE TABLE exits (
+  id          INTEGER PRIMARY KEY,
+  name        TEXT,
+  short_descr TEXT,
+  description TEXT,
+  vnum        INTEGER,
+  direction   INTEGER,
+  exit_info   INTEGER,
+  key         INTEGER,
+  room_id     INTEGER
+);
+
+CREATE TABLE affects (
+  id        INTEGER PRIMARY KEY,
+  type      INTEGER,
+  duration  INTEGER,
+  location  INTEGER,
+  modifer   INTEGER,
+  bitvector INTEGER,
+  aid       INTEGER
+);
+
+CREATE TABLE resets (
+  id      INTEGER PRIMARY KEY,
+  command TEXT,
+  arg1    INTEGER,
+  arg2    INTEGER,
+  arg3    INTEGER
+);
+
+CREATE TABLE shops (
+  id          INTEGER PRIMARY KEY,
+  keeper      INTEGER,
+  buy_type1   INTEGER,
+  buy_type2   INTEGER,
+  buy_type3   INTEGER,
+  buy_type4   INTEGER,
+  buy_type5   INTEGER,
+  profit_buy  INTEGER,
+  profit_sell INTEGER,
+  open_hour   INTEGER,
+  close_hour  INTEGER
+);
+
