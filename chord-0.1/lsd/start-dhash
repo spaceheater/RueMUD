@@ -1,0 +1,247 @@
+#!/usr/bin/perl -w
+#
+# start daemons necessary to run dhash: adbd, lsd, syncd
+#
+use strict;
+$ENV{'POSIXLY_CORRECT'} = 1;
+use Getopt::Long qw(:config posix_default pass_through);
+use File::Basename;
+use Pod::Usage;
+use POSIX qw/:sys_wait_h :signal_h/;
+
+sub spawn {
+    my $rundir = shift;
+    my $rprog  = shift;
+    my @args   = @_;
+    my $prog = basename ($rprog);
+    mkdir $rundir, 0755 unless -d $rundir;
+
+    # XXX should test pid < 0
+    my $pid;
+    if ($pid = fork ()) {
+	print "RUNNING: $rprog @args\n";
+	open (PID, "> $rundir/pid.$prog")
+	    || die "open pid: $!\n";
+	print PID "$pid"; close (PID);
+	return $pid;
+    } else {
+	# Don't disassociate with setsid so that ctrl-c will kill
+	chdir $rundir or die "Couldn't chdir $rundir: $!\n";
+	close (STDIN);
+	open (STDIN, "< /dev/null")
+	    || die "Couldn't re-open STDIN: $!\n";
+	open (STDOUT, "> log.$prog")
+	    || die "Couldn't re-open STDOUT: $!\n";
+	open (STDERR, ">&STDOUT")
+	    || die "Couldn't dup STDOUT to STDERR: $!\n";
+	exec { $rprog } @args
+	    or die "Couldn't exec: $!\n";
+	exit (1);
+    }
+}
+
+my $help = 0;
+my $root = "dhash-$ENV{USER}";
+my $userbindir = "";
+my $maintmode = "passingtone";
+my $quota = 0;
+my $daemonize = 0;
+my $logdir = undef;
+GetOptions (
+    "help|?"      => \$help,
+    "root|r=s"    => \$root,
+    "logdir=s"	=> \$logdir,
+    "bindir=s"      => \$userbindir,
+    "maintmode=s" => \$maintmode,
+    "quota=s"	  => \$quota,
+    "daemonize"   => \$daemonize,
+);
+pod2usage(0) if $help;
+
+# Find binaries
+my $found = 1;
+my $LSD   = "lsd";
+my $ADBD  = "adbd";
+my $MAINTD = "maintd";
+for my $rawbindir ($userbindir, ".", split(/:/, $ENV{PATH})) {
+    next unless length($rawbindir) > 0;
+    my $bindir = $rawbindir;
+    if ($bindir !~ /^\//) {
+	use File::Spec;
+	$bindir = File::Spec->rel2abs ($bindir);
+    }
+    next unless -d $bindir;
+    if (-x "$bindir/bin/lsd") {
+	# e.g. bindir=/usr
+	$bindir = "$bindir/bin";
+    }
+    if (-x "$bindir/lsd/lsd") {
+	# e.g. bindir is top of builddir
+	$LSD    = "$bindir/lsd/lsd";
+	$ADBD   = "$bindir/lsd/adbd";
+	$MAINTD = "$bindir/maint/maintd";
+    } elsif (-x "$bindir/lsd" and ! -d _) {
+	# e.g. bindir=/usr/bin
+	$LSD    = "$bindir/lsd";
+	$ADBD   = "$bindir/adbd";
+	$MAINTD = "$bindir/maintd";
+    } 
+    $found = 1;
+    for ($LSD, $ADBD, $MAINTD) {
+	$found = $found && (-f $_ && -x _);
+    }
+    last if $found;
+}
+pod2usage("Unable to find lsd/adbd/maintd executables; use --bindir.\n")
+    unless $found;
+
+# Be ready to pass on signals
+my $signaled = -1;
+$SIG{INT} = sub { $signaled = SIGINT; };
+$SIG{HUP} = sub { $signaled = SIGHUP; };
+$SIG{TERM} = sub { $signaled = SIGTERM; };
+
+# Try to allow core dump files
+eval "use BSD::Resource; setrlimit (RLIMIT_CORE, -1, -1);";
+
+my @daemonizearg = ();
+push @daemonizearg, "-D" if $daemonize;
+my %PID = ();
+if (defined ($logdir)) {
+    $PID{adbd}  = spawn ($root, $ADBD, "adbd",
+			 "-d", "./db",
+			 "-l", $logdir,
+			 "-S", "./adbd-sock", "-q", $quota, @daemonizearg);
+} else {
+    $PID{adbd}  = spawn ($root, $ADBD, "adbd",
+			 "-d", "./db",
+			 "-S", "./adbd-sock", "-q", $quota, @daemonizearg);
+}
+$PID{maintd} = spawn ($root, $MAINTD, "maintd",
+		     "-d", "./maintdata",
+		     "-m", $maintmode,
+		     "-C", "./maint-sock", @daemonizearg);
+my $lsd_started = 0;
+
+# Keep this process running until kids come home, unless $daemonize.
+my $killers  = 0;
+my $abnormal = 0;
+while (keys %PID) {
+    sleep 1;
+    if (!$lsd_started and
+	-e "$root/adbd-sock" and -e "$root/maint-sock")
+    {
+	$PID{lsd} = spawn ($root, $LSD, "lsd",
+	    "-d", "./adbd-sock", 
+	    "-S", "./dhash-sock",
+	    "-R", "./maint-sock",
+	    "-C", "./lsd-sock",
+	    @daemonizearg,
+	    @ARGV);
+	$lsd_started = 1;
+    }
+    if ($signaled >= 0) {
+	# Pass on the signal to children.
+	for (keys %PID) { kill $signaled, $PID{$_}; }
+    }
+    my $kid = waitpid (-1, WNOHANG);
+    next unless $kid > 0;
+    for (keys %PID) {
+	next unless $kid == $PID{$_};
+
+	delete $PID{$_};
+	print "REAPED $_ ($kid): exited";
+	if (WIFEXITED ($?) and WEXITSTATUS ($?) == 0) {
+	    print " normally\n";
+	} else {
+	    $abnormal++;
+	    print " with status ", WEXITSTATUS ($?)
+		if (WIFEXITED ($?) and WEXITSTATUS ($?) > 0);
+	    print " on signal ", WTERMSIG ($?) if WIFSIGNALED ($?);
+	    print "\n";
+	} 
+	last;
+    }
+    if ($abnormal) {
+	# If anyone exited abnormally, it's not worth living any more.
+	for (keys %PID) {
+	    my $signal = ($killers++ > 2 ? 9 : 15);
+	    kill $signal, $PID{$_};
+	}
+    }
+}
+exit ($abnormal > 0);
+
+__END__
+
+=head1 NAME
+
+start-dhash - Automatically starting and sandboxing Chord/DHash
+
+=head1 SYNOPSIS
+
+start-dhash [start-dhash options] [lsd options]
+
+  Options: 
+    --help		Show brief usage message 
+    --root dir		Sandbox Chord/DHash into <dir>
+    --bindir dir	Directory of where to find binaries 
+    --maintmode mode	Maintenance mode used by maintd.
+    --quota quota	Quota for adbd.
+    --daemonize		Run all kids as daemons.
+
+=head1 OPTIONS
+
+=over 8
+
+=item B<--help>
+
+Print a brief help message and exit.
+
+=item B<--root> dir
+
+Place databases, control sockets (and log files) inside the specified
+directory dir.  For best performance, this should be on a local filesystem.
+
+=item B<--logdir> dir
+
+Place database log files in dir.  Ideally, this would be on a separate
+physical device from the --root directory.
+
+=item B<--bindir> dir
+
+Search for binaries inside the specified directory.  This may be
+something like /usr, /usr/bin or a build directory; each of these
+possibilities is considered.  Otherwise, the default is to search
+the path for binaries.
+
+=item B<--maintmode> mode
+
+Use the specified maintenance mode.  This mode is passed directly
+to the -m option of maintd; validity checking is also done by maintd.
+
+=item B<--quota> quota
+
+Set the quota used by adbd.  If no unit is specified, defaults to
+number of GB.   Otherwise, add suffix of 'G' for GB, 'M' for
+MB, 'K' for KB, or 'b' for bytes directly.
+
+=item B<--daemonize>
+
+Pass -D flag to all children so that they run as daemons instead
+of in the foreground.  With this flag, start-dhash relinquishes
+responsibility for reaping the actual processes after they exit,
+abnormally or not.
+
+=head1 LSD OPTIONS
+
+Any other options for lsd (and potentially for its helper programs)
+can be included on the command line and are passed through as 
+appropriate.
+
+=head1 DESCRIPTION
+
+This script handles starting the various Chord/DHash daemons in the 
+right order and places all relevant files in the specified directory.
+
+=cut
