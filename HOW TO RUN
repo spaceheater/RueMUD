@@ -1,0 +1,11 @@
+Because Drew and Rina keep forgetting things...
+
+1. run make
+2. run ./startup.bash
+3. run make database
+4. run ./murk [port]
+5. telnet localhost [port] or IP and then [port]
+
+that's it.
+seriously.
+omg.
