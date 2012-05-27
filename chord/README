@@ -1,0 +1,88 @@
+cChord API
+===========
+As no API guide came with cChord, I decided to create my own.  Behold!  A short
+guide to implementing cChord with YOUR programs!
+
+0. Before We Begin
+I have only installed and run cChord on a Linux machine.  I have no ability
+to assist with installations other than Linux ones.  Specifically, I have run
+cChord on Linux Mint 13 and Debian systems.
+
+Installing cChord can be a bit tricky, so there are two versions: the root 
+version (which, as one might imagine, assumes you can be root) and the user 
+version (which I jokingly call the "student trapped in the linux lab" version).
+
+The root version is very easy:
+1. Fork and clone into the cChord repository.
+2. CD into the main folder, run "make" and "make install".  You need both.
+3. To test your installation, move the libmymed.a file into "example" and run
+make ARCH=linux.  If this doesn't work, you may need to move the LNK_OPTIONS 
+section in the makefile to after example.out.
+4. Run ./example.out <host> <port> <directory> <if joining, put --join> here.
+
+The user version assumes that you can't be root.  In this version, you will need
+to copy all the header files from the source (yes, all .h files) and stick them
+in the file you're using cChord with instead of running make install.  You can 
+then call them as you would any other user-made header files.  
+
+1. Connection
+cChord needs several things to make a connection: a host, a port, a directory
+and whether or not it's making a new chord or joining one in progress.  
+
+If you are starting a new chord, you'll need to allocate the data for that 
+chord:
+	Node *chord = NULL;
+Otherwise, just start a new node.
+    ChordNode *node = NULL;
+To start a chord connection, set the chord equal to the parameters of the 
+connection, by calling the initChordNode function within P_SINGLETON as follows:
+	node = P_SINGLETON->initChordNode(<host>,<port>,<directory>,<join?>);
+If you're beginning a new chord, we won't need a ChordNode.
+    chord = NULL;
+Note that in this example, node refers to the chord, and chord refers to the 
+CHORD node.  It's a little confusing, but the names are taken from the example
+code that I have in another text file in this folder so they match up.
+Anyways, if you ARE joining a connection, the chord node will be set to a new
+node: 
+      chord = new Node(backBone[0], 8000);
+Which the chord then can join to itself.
+	  node->join(chord);  
+The above function depicts the chord joining the chord node.
+
+2. Storing Data
+Storing data is what we're here to do, isn't it?
+Storing data is literally done with a node->put(key,value) function.  The key and
+the values are both strings.  This could probably be modified for other uses.
+
+3. Retrieving Data
+Retrieving data is similarly easy - as with a database you simply call a get(key)
+command.  
+
+4. Removing Data Entries
+Finally, to remove data, you'll want to call removekey(key) command.
+
+5. Closing Connection
+To clean up and close your connection, call node->shutDown();
+If you're destroying the node/chord too, call the delete commands on those 
+as well - such as here, if we wanted to delete the chord, we'd call 
+	delete node;
+and if we want to delete the node, call
+	delete chord;
+
+6. Debugging
+A useful debugging function is that of node->printStatus, which does exactly what
+it should do.
+	node->printStatus();
+the output looks like this:
+	chordTestBed on localhost:8000
+	<NODE: 134, PRED: 134, SUCC: 134>
+		Fingers Table: [134, 134, 134, 134, 134, 134, 134, 134, 134]
+Useful for debugging where your nodes are connecting to...
+	
+DISCLAIMER:
+These are basic functions of cChord that were used with the RueMUD project for
+CMSC 23310.  cChord code is the property of Laurent Vanni and Nicolas Goles 
+Domic.  Their original license remains intact in this folder.  Furthermore, a 
+public distribution of said code is available on github.com at the following 
+address: [[https://github.com/MrGando/cChord]]  Fork it for chordy goodness!
+
