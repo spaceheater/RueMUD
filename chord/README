@@ -34,7 +34,7 @@ chord:
 	Node *chord = NULL;
 Otherwise, just start a new node.
     ChordNode *node = NULL;
-To start a chord connection, set the chord equal to the parameters of the 
+To start a chord connection, set the chord equal to the parameters of the node YOU ARE CONNECTING FROM.  THIS IS CRUCIAL.  Continue beginning the 
 connection, by calling the initChordNode function within P_SINGLETON as follows:
 	node = P_SINGLETON->initChordNode(<host>,<port>,<directory>,<join?>);
 If you're beginning a new chord, we won't need a ChordNode.
@@ -43,8 +43,8 @@ Note that in this example, node refers to the chord, and chord refers to the
 CHORD node.  It's a little confusing, but the names are taken from the example
 code that I have in another text file in this folder so they match up.
 Anyways, if you ARE joining a connection, the chord node will be set to a new
-node: 
-      chord = new Node(backBone[0], 8000);
+node - that is, the node you are CONNECTING TO: 
+      chord = new Node(<host_connectingto>, <port_connectingto>);
 Which the chord then can join to itself.
 	  node->join(chord);  
 The above function depicts the chord joining the chord node.
