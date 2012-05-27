@@ -6,7 +6,7 @@ We propose that a peer to peer (P2P) implementation be revisited. While such an 
 Direct connections via P2P services are already used in some games, more specifically in MUDs (Multi-User Dungeons) where chat often takes place over a P2P connection. If chat can take place over P2P, why not the entire game? Thus, in order to prove the usefulness of P2P for browser/casual games, we will change a small MUD called MURK++ SocketMUD to use a P2P connection format using the strategies outlined in the paper "MOPAR: a mobile peer-to-peer overlay architecture for interest management of massively multiplayer online games" and the DHT implementation Chord.
 
 About SocketMUD
-We set out to perform this project with SocketMUD - unfortunately, the number of files associated with MURK++ quickly overwhelmed us as a team - we had to think smaller. Thus, we turned to using SocketMUD, a simpler MUD with less implementation finished, and aim to expand it as we see fit. SocketMUD is composed of basic networking code, a room and one or two interactive commands - nothing more.
+We set out to perform this project with MURK++ - unfortunately, the number of files associated with MURK++ quickly overwhelmed us as a team - we had to think smaller. Thus, we turned to using SocketMUD, a simpler MUD with less implementation finished, and aim to expand it as we see fit. SocketMUD is composed of basic networking code, a room and one or two interactive commands - nothing more.
 
 About MOPAR
 MOPAR is the system of P2P gameplay outlined in "MOPAR: A Mobile Peer-to-Peer Overlay Architecture for Interest Management of Massively Multiplayer Online Games." Taking the advantages present in both DHT overlay and unstructured P2P architecture, MOPAR divides a game map into hexagonal zones, uses a DHT overlay to map each cell to a determined node, and assigns particular game participants "master node" privelleges, allowing them to keep track of the movements/departures/entrances of the other game participants. AOI is fixed, because of the properties of MUDs (a character must make a request to look at a given thing).
@@ -41,10 +41,9 @@ MOPAR-inspired AOI data management
 
 By the presentation, we should have our final debugged version of SocketMUD working.
 
-Links Here are some links that you might find interesting for more information on our project.
+Links 
+Here are some links that you might find interesting for more information on our project.
 [[http://www.comp.nus.edu/~bleong/hydra/related/yu05mopar.pdf]] The Mopar Paper
 [[http://en.wikipedia.org/wiki/Chord_(peer-to-peer)]] Information about Chord
-[[http://en.wikipedia.org/wiki/Merc_(MUD)]] Information about MercMUD
-[[http://www.mudbytes.net/file-706]] MURK++ Source
-[[https://github.com/dmariew/RueMUD]] Our GitHub Repo Now being updated
+[[http://www.socketmud.dk/]] SocketMUD Information
 
