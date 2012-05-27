@@ -25,9 +25,9 @@ using namespace std;
  *  (unique string)")" 
  */
  
-int main() 
+int main(int argc, char *argv[]) 
 {
-    string hostname = "127.0.0.1";
+    string hostname = "mimosa.cs.uchicago.edu";
 
     /* Originally "backbone" */
 	
@@ -36,8 +36,8 @@ int main()
     //This will always join to the mimosa.cs.uchicago.edu chord.
     cout << "client now joining...\n";
     int i = 0;
-    node = P_SINGLETON->initChordNode(std::string("mimosa.cs.uchicago.edu"), 
-			   8000, std::string("ruemud"),std::string("."));
+    node = P_SINGLETON->initChordNode(std::string(argv[2]), 
+			   atoi(argv[3]), std::string("ruemud"),std::string("."));
     chord = new Node(hostname, 8000);
     node->join(chord);
 
@@ -50,6 +50,7 @@ int main()
 	srand((unsigned)time(0)); 		
 	value = rand(); 
     node->put(key, value);
+    cout << "entered " << value << " in " << key << endl;
  	node->shutDown();
     
 }
