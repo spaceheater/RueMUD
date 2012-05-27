@@ -27,11 +27,8 @@ using namespace std;
  
 int main() 
 {
-    char hn[128];
-    string hostname(hn);
+    string hostname = "127.0.0.1";
 
-
-    gethostname(hn, sizeof hn);
     /* Originally "backbone" */
 	
     Node *chord = NULL;

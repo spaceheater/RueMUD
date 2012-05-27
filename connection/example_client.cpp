@@ -22,13 +22,10 @@ using namespace std;
  *  (unique string)")" 
  */
  
-int main() 
+int main()
 {
-    char hn[128];
-    string hostname(hn);
+    string hostname = "127.0.0.1";
 
-
-    gethostname(hn, sizeof hn);
     /* Originally "backbone" */
 	
     Node *chord = NULL;
@@ -39,7 +36,7 @@ int main()
     int i = 0;
     node = P_SINGLETON->initChordNode(std::string("mimosa.cs.uchicago.edu"), 
 			   8000, std::string("ruemud"),std::string("."));
-    chord = new Node(hostname, 8000);
+    chord = new Node(hostname, 9000);
     node->join(chord);
 
     char entry[256];
